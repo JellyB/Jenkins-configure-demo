@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wdcloud.ptxtgl.resource.mapper.ResourceMapper">
+
+	<!-- 资源表所有列 -->
+	<sql id="Resource_Column_List">
+		id, resourcename, resourcecode, resourcetype, classname, methodname, resourceurl, appkey,
+		descn, delflag, operatercode, operatetime, creatercode, creatertime, versions
+	</sql>
+
+	<!-- 查询资源条数 -->
+	<select id="selectResourcesCount" parameterType="map" resultType="int">
+		select count(*) from t_sysmgr_resource t where t.delflag != 'D'
+		<if test="resourcename != null and resourcename !=''">
+			and t.resourcename like '%${resourcename}%'
+		</if>
+		<if test="resourcecode != null and resourcecode !=''">
+			and t.resourcecode like '%${resourcecode}%'
+		</if>
+		<if test="resourcetype != null and resourcetype !=''">
+			and t.resourcetype = #{resourcetype,jdbcType=VARCHAR}
+		</if>
+		<if test="appkey != null and appkey !=''">
+			and t.appkey = #{appkey,jdbcType=VARCHAR}
+		</if>
+	</select>
+
+	<!-- 查询资源列表 -->
+	<select id="selectResources" resultType="com.wdcloud.ptxtgl.resource.entity.Resource" parameterType="map">
+		select
+		<include refid="Resource_Column_List" />
+		from t_sysmgr_resource t where t.delflag != 'D'
+		<if test="resourcename != null and resourcename !=''">
+			and t.resourcename like '%${resourcename}%'
+		</if>
+		<if test="resourcecode != null and resourcecode !=''">
+			and t.resourcecode like '%${resourcecode}%'
+		</if>
+		<if test="resourcetype != null and resourcetype !=''">
+			and t.resourcetype = #{resourcetype,jdbcType=VARCHAR}
+		</if>
+		<if test="appkey != null and appkey !=''">
+			and t.appkey = #{appkey,jdbcType=VARCHAR}
+		</if>
+		order by t.creatertime desc
+		limit #{pageStart}, #{pageSize}
+	</select>
+
+	<!-- 插入资源 -->
+	<insert id="insertResource" parameterType="com.wdcloud.ptxtgl.resource.entity.Resource">
+		insert into t_sysmgr_resource(id, resourcename, resourcecode, resourcetype, classname, methodname, resourceurl, appkey,
+			descn, delflag, operatercode, operatetime, creatercode, creatertime, versions)
+		values(#{RESOURCE.id,jdbcType=VARCHAR},#{RESOURCE.resourcename,jdbcType=VARCHAR},#{RESOURCE.resourcecode,jdbcType=VARCHAR},#{RESOURCE.resourcetype,jdbcType=VARCHAR},
+			#{RESOURCE.classname,jdbcType=VARCHAR},#{RESOURCE.methodname,jdbcType=VARCHAR},#{RESOURCE.resourceurl,jdbcType=VARCHAR},#{RESOURCE.appkey,jdbcType=VARCHAR},
+			#{RESOURCE.descn,jdbcType=VARCHAR},#{RESOURCE.delflag,jdbcType=VARCHAR},#{RESOURCE.operatercode,jdbcType=VARCHAR},#{RESOURCE.operatetime,jdbcType=TIMESTAMP},
+			#{RESOURCE.creatercode,jdbcType=VARCHAR},#{RESOURCE.creatertime,jdbcType=TIMESTAMP},#{RESOURCE.versions,jdbcType=VARCHAR})
+	</insert>
+
+	<!-- 查询ResourceCode数量 -->
+	<select id="getPermissionCodeCount" resultType="int">
+		select count(*) from t_sysmgr_resource where resourcecode = #{RESOURCECODE,jdbcType=VARCHAR}
+		<if test="RESOURCEID != null">
+			and id != #{RESOURCEID,jdbcType=VARCHAR}
+		</if>
+	</select>
+
+	<!-- 根据id查询资源 -->
+	<select id="selectResourceById" resultType="com.wdcloud.ptxtgl.resource.entity.Resource">
+		select
+		<include refid="Resource_Column_List" />
+		from t_sysmgr_resource where id = #{ID} and delflag != 'D'
+	</select>
+
+	<!-- 修改资源 -->
+	<update id="updateResource" parameterType="com.wdcloud.ptxtgl.resource.entity.Resource">
+		update t_sysmgr_resource t
+		set t.delflag = #{RESOURCE.delflag,jdbcType=VARCHAR},
+			<if test="RESOURCE.resourcename != null and RESOURCE.resourcename !=''">
+				t.resourcename = #{RESOURCE.resourcename,jdbcType=VARCHAR},
+			</if>
+			<if test="RESOURCE.resourcecode != null and RESOURCE.resourcecode !=''">
+				t.resourcecode = #{RESOURCE.resourcecode,jdbcType=VARCHAR},
+			</if>
+			<if test="RESOURCE.resourcetype != null and RESOURCE.resourcetype !=''">
+				t.resourcetype = #{RESOURCE.resourcetype,jdbcType=VARCHAR},
+			</if>
+			<if test="RESOURCE.resourceurl != null and RESOURCE.resourceurl !=''">
+				t.resourceurl = #{RESOURCE.resourceurl,jdbcType=VARCHAR},
+			</if>
+			<if test="RESOURCE.appkey != null and RESOURCE.appkey !=''">
+				t.appkey = #{RESOURCE.appkey,jdbcType=VARCHAR},
+			</if>
+			<if test="RESOURCE.descn != null and RESOURCE.descn !=''">
+				t.descn = #{RESOURCE.descn,jdbcType=VARCHAR},
+			</if>
+			t.operatercode = #{RESOURCE.operatercode,jdbcType=VARCHAR},
+			t.operatetime = #{RESOURCE.operatetime,jdbcType=TIMESTAMP},
+			t.versions = #{RESOURCE.versions,jdbcType=BIGINT}
+		where id = #{RESOURCE.id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 通过id删除资源 -->
+	<update id="deleteResourceById" parameterType="hashmap">
+		update t_sysmgr_resource t
+		set t.delflag = #{delflag,jdbcType=VARCHAR},
+			t.operatercode = #{operatercode,jdbcType=VARCHAR},
+			t.operatetime = #{operatetime,jdbcType=TIMESTAMP},
+			t.versions = #{versions,jdbcType=BIGINT}
+		where id = #{resourceid,jdbcType=VARCHAR}
+	</update>
+	
+	<select id = "getResourceUrlByUserIdAndAppkey" parameterType="java.util.Map" resultType="java.lang.String">
+		<![CDATA[
+			SELECT 	re.resourceurl FROM
+			t_sysmgr_resource re   LEFT JOIN t_sysmgr_permission_resource pr ON pr.resourceid = re.id
+			WHERE
+			re.delflag <> 'D' AND re.appkey = #{appkey,jdbcType=VARCHAR} and pr.permissionid IN (
+			SELECT DISTINCT 		rp.permissionid 	FROM
+			t_sysmgr_role_permission rp 	LEFT JOIN t_sysmgr_role ro ON rp.roleid = ro.id
+			WHERE
+			ro.delflag <> 'D' 	AND ro.appkey = #{appkey,jdbcType=VARCHAR} and 	rp.roleid IN (
+			SELECT DISTINCT 		ur.ROLEID 		FROM
+			t_sysmgr_user_role ur 		LEFT JOIN t_sysmgr_role r ON r.id = ur.ROLEID
+			WHERE
+			ur.USERID = #{userid,jdbcType=VARCHAR}
+			AND r.appkey = #{appkey,jdbcType=VARCHAR}
+			AND r.delflag <> 'D'		))
+		]]>
+	</select>
+</mapper>

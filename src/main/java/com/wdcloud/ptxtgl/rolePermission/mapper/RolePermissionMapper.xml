@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wdcloud.ptxtgl.rolePermission.mapper.RolePermissionMapper" >
+
+	<select id="listRolePermissionsCountByRoleId" parameterType="map" resultType="java.lang.Integer">
+		<![CDATA[
+		select count(r.id) from t_sysmgr_permission r left join t_sysmgr_role_permission u on r.id = u.permissionid
+			where  u.roleid = #{roleid,jdbcType=VARCHAR}  and r.delflag <> 'D' 			   
+		]]>
+		<if test="permissionname != null and permissionname != '' ">
+			and permissionname like "%${permissionname}%"
+		</if>
+		<if test="permissioncode != null and permissioncode !='' ">
+			and permissioncode like "%${permissioncode}%"
+		</if>
+		<if test="appkey != null and appkey != '' ">
+			and appkey like "%${appkey}%"
+		</if>
+	</select>
+	
+	<select id="listRolePermissionsByRoleId" resultType="com.wdcloud.ptxtgl.rolePermission.entity.RolePermission" parameterType="map">
+		<![CDATA[
+			select u.roleid as roleid, u.permissionid as id,
+				   r.permissioncode, r.permissionname, r.appkey, r.creatercode, r.creatertime
+			       from t_sysmgr_permission r left join t_sysmgr_role_permission u on r.id = u.permissionid
+				   where  u.roleid = #{roleid,jdbcType=VARCHAR}  and r.delflag <> 'D'
+				   
+		]]>
+		<if test="permissionname != null and permissionname != '' ">
+			and permissionname like "%${permissionname}%"
+		</if>
+		<if test="permissioncode != null and permissioncode !='' ">
+			and permissioncode like "%${permissioncode}%"
+		</if>
+		<if test="appkey != null and appkey != '' ">
+			and appkey like "%${appkey}%"
+		</if>
+		<![CDATA[			
+			order by r.creatertime desc
+			limit #{pageStart}, #{pageSize}
+		]]>
+	</select>
+	
+	
+	<select id="listRoleNotPermissionsCountByRoleId" parameterType="map" resultType="java.lang.Integer">
+		<![CDATA[
+		select count(id) from t_sysmgr_permission where 
+			id not in( select permissionid from t_sysmgr_role_permission where roleid = #{roleid,jdbcType=VARCHAR})
+			and  delflag <> 'D'
+				   
+		]]>
+		<if test="permissionname != null and permissionname != ''">
+			and permissionname like "%${permissionname}%"
+		</if>
+		<if test="permissioncode != null and permissioncode !='' ">
+			and permissioncode like "%${permissioncode}%"
+		</if>
+		<if test="appkey != null and appkey != ''">
+			and appkey like "%${appkey}%"
+		</if>
+	</select>
+	
+	<select id="listRoleNotPermissionsByRoleId" parameterType="map" resultType="com.wdcloud.ptxtgl.permission.entity.Permission">
+		<![CDATA[
+			select id,permissionname,permissioncode,permissiontype,appkey,descn,creatercode,creatertime
+				from t_sysmgr_permission
+				where id not in
+				(select permissionid from t_sysmgr_role_permission where roleid =#{roleid,jdbcType=VARCHAR})
+				and delflag <> 'D'
+		]]>
+		<if test="permissionname != null and permissionname != '' ">
+			and permissionname like "%${permissionname}%"
+		</if>
+		<if test="permissioncode != null and permissioncode != '' ">
+			and permissioncode like "%${permissioncode}%"
+		</if>
+		<if test="appkey != null and appkey != '' ">
+			and appkey like "%${appkey}%"
+		</if>
+			order by creatertime desc
+			limit #{pageStart}, #{pageSize}
+	</select>	
+
+	<update id="deleteRolePermissionsByRoleId" parameterType="java.util.Map">
+		<![CDATA[
+			delete from t_sysmgr_role_permission 
+			where roleid =#{roleid,jdbcType=VARCHAR}
+			and permissionid  in			
+		]]>
+		<foreach collection="permissionids" item="item" index="index" open="(" close=")" separator="," >	
+			#{item,jdbcType=VARCHAR}
+		</foreach>
+	</update>
+	
+	<insert id="addRolePermissionsByRoleId" parameterType="java.util.Map">
+		<![CDATA[
+			insert into t_sysmgr_role_permission(roleid,permissionid) values
+		]]>
+		<foreach collection="permissionids" item="item" index="index" separator="," >	
+			(#{roleid,jdbcType=VARCHAR},#{item,jdbcType=VARCHAR})
+		</foreach>		
+	</insert>
+	
+	<!-- <select id="getRolePermissionsCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+		<![CDATA[
+			select count(permissionid) from t_sysmgr_role_permission
+			where roleid =#{roleid,jdbcType=VARCHAR}
+		]]>
+	</select> -->
+	
+	<!-- <update id="deleteRoleHavenPermissions" parameterType="java.lang.String">
+		<![CDATA[
+			delete from t_sysmgr_role_permission
+			where roleid =#{roleid,jdbcType=VARCHAR}
+		]]>
+	</update> -->
+	
+	
+	<select id = "getPermissionIdsByRoleIdsAndAppkey" parameterType="java.util.Map" resultType="java.lang.String">
+		<![CDATA[
+			select  p.id 
+			from t_sysmgr_role_permission rp left join t_sysmgr_permission p on rp.permissionid = p.id
+			where p.delflag <> 'D'
+			and p.appkey =#{appkey,jdbcType=VARCHAR}
+			and rp.roleid in
+		]]>
+		<foreach collection="roleSet" item="item" index="index" open="(" close =")" separator=",">
+			#{item,jdbcType=VARCHAR}
+		</foreach>
+	</select>
+</mapper>

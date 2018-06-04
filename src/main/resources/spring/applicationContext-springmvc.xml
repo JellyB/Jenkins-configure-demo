@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<beans  
+	xmlns="http://www.springframework.org/schema/beans"  
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+	xmlns:tx="http://www.springframework.org/schema/tx"  
+	xmlns:context="http://www.springframework.org/schema/context"    
+	xmlns:mvc="http://www.springframework.org/schema/mvc"    
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd   
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd  
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd  
+	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd" 
+	default-autowire="byName">
+	<!-- <mvc:annotation-driven conversion-service="conversionService"> -->
+	<mvc:annotation-driven>  
+		<mvc:message-converters register-defaults="true">
+			<!--避免IE执行AJAX时,返回JSON出现下载文件 -->  
+			<bean id="fastJsonHttpMessageConverter" class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">  
+				<property name="supportedMediaTypes">
+					<list>
+						<value>application/json;charset=UTF-8</value>
+						<value>text/plain;charset=UTF-8</value>     
+                    	<value>text/html;charset=UTF-8</value>
+					</list>
+				</property>
+				<property name="features">  
+		            <list>  
+		                <!-- <value>WriteMapNullValue</value> -->  
+		                <!-- <value>QuoteFieldNames</value>  -->
+		                <value>WriteDateUseDateFormat</value>  
+		            </list>  
+		        </property>  
+			</bean>
+		</mvc:message-converters>  
+	</mvc:annotation-driven>
+	<!-- web请求字符串类型转换 
+	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">    
+		<property name="converters">    
+			<list>
+				<bean class="com.wdcloud.framework.web.springmvc.converter.DateConverter" />
+			</list>
+		</property>
+	</bean>-->
+	
+	<!-- 只扫描@Controller,不扫描@Service -->
+    <context:component-scan base-package="com.wdcloud">
+    	<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/> 
+    	<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+    </context:component-scan>
+    
+	<!-- 视图解释类 -->  
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<!-- 页面路径前缀 -->
+		<property name="prefix" value=""/>
+		<!--可为空,方便实现自已的依据扩展名来选择视图解释类的逻辑  -->  
+		<property name="suffix" value=""/>
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />  
+	</bean>
+    
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="UTF-8"/>
+		<!-- 指定所上传文件的总大小不能超过1MB。注意maxUploadSize属性的限制不是针对单个文件，而是所有文件的容量之和 -->
+		<property name="maxUploadSize" value="11048576"/>
+	</bean>
+	
+	<!-- 统一异常跳转，exceptionMappings中设置异常类到页面的映射关系，每一项中value值 会根据InternalResourceViewResolver的规则转换成真实的页面路径进行跳转-->
+	<bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">  
+		<property name="exceptionMappings">
+			<props>
+				<!-- 设置上传文件超限后的统一跳转页面 -->
+				<prop key="org.springframework.web.multipart.MaxUploadSizeExceededException">/errors/error_fileupload.jsp</prop>
+				<!-- 设置后台数据校验错误的统一跳转页面 -->
+				<prop key="com.wdcloud.framework.web.exception.ValidateException">/errors/validateError.jsp</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- 静态资源配置，设置了的路径不通过springmvc进行过滤 -->
+	<mvc:resources mapping="/images/**" location="/images/" />
+	<mvc:resources mapping="/app/**" location="/app/" />
+	<mvc:resources mapping="/ui/**" location="/ui/" />
+	
+</beans>  

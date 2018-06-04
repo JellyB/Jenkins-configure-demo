@@ -1,0 +1,352 @@
+body,html{
+	background: #F2F2F2;
+}
+.hp-top{
+	height: 30px;
+	background: #fff;
+	line-height: 30px;
+	color: #666666;
+	font-size: 14px;
+}
+.hp-top-box{
+	width: 1200px;
+	margin: 0 auto;
+}
+.hp-logo-box{
+	height: 70px;
+	background: #fff;
+	box-shadow: 0px 5px 5px #D4D4D3;
+}
+.hp-logo{
+	background: url(../images/logo.png) no-repeat left center;
+	width: 1200px;
+	height: 70px;
+	margin: 0 auto;
+}
+.hp-logo>span{
+	font-size: 24px;
+	/*font-weight: bold;*/
+	color: #009DE0;
+	display: block;
+	line-height: 40px;
+	height: 40px;
+	border-left:1px solid #ccc ;
+	margin-left: 460px;
+	float: left;
+	margin-top: 10px;
+	padding-left: 10px;
+}
+.hp-logo>div{
+	
+}
+.hp-logo div span{
+	font-size: 12px;
+	padding: 0;
+	display: block;
+	margin-top: 10px;
+	float: right;
+	margin-right: 20px;
+	padding-left: 20px;
+	color: #666666;
+	background: url(../images/icon-tx.png) no-repeat;
+}
+.hp-logo div span label{
+	color: #FF6600;
+}
+.hp-logo div a{
+	background: url(../images/icon-tc.png) no-repeat top left;
+	display: block;
+	width:45px;
+	float: right;
+	margin-top: 10px;
+	padding-left: 18px;
+	font-size: 12px;
+	color: #666666;
+}
+.hp-logo-date{
+	margin-top: 40px;
+	font-size: 12px;
+	color: #666666;
+	text-align: right;
+}
+.hp-main{
+	width: 1200px;
+	margin: 0 auto;
+	min-height: 500px;
+	overflow: auto;
+	padding-top: 20px;
+}
+.hp-menu-box{
+	width: 170px;
+	min-height: 500px;
+	background: #fff;
+	border: 1px solid #CCCCCC;
+}
+.hp-frameRight{
+	width: 1015px;
+	min-height: 500px;
+	background: #fff;
+	padding: 20px;
+	border: 1px solid #CCCCCC;
+}
+.hp-menu-box>span{
+	display: block;
+	width: 100%;
+	font-size: 14px;
+	padding-left: 40px;
+	color: #fff;
+	height: 50px;
+	line-height: 50px;
+	background: #666666 url(../images/icon-cd.png) no-repeat 10px center;
+}
+.hp-menu-box>ul{
+	margin-left: 10px;
+	margin-top: 10px;
+}
+.hp-menu-box>ul span{
+	color: #1E1E1E;
+	font-size: 14px;
+	font-weight: bold;
+	display: block;
+	height: 30px;
+	line-height: 30px;
+}
+.hp-menu-box>ul ul{
+	margin-left: 15px;
+}
+.hp-menu-box>ul ul li{
+	height: 30px;
+	line-height: 30px;
+}
+.hp-menu-box>ul ul li a{
+	color: #1E1E1E;
+	font-size: 12px;
+}
+.hp-footer{
+	width: 1200px;
+	margin: 0 auto;
+	border-top: 1px solid #CCCCCC;
+	margin-top: 20px;
+	padding-top: 5px;
+}
+.hp-footer p{
+	display: block;
+	width: 100%;
+	text-align: center;
+	font-size: 14px;
+	color: #333333;
+	line-height: 25px;
+}
+.hp-box-title{
+	width: 100%;
+	height: 30px;
+	margin-bottom: 10px;
+	border-bottom: 2px solid #666666;
+}
+.hp-box-title span{
+	font-size: 16px;
+	font-weight: bold;
+	color: #333333;
+}
+.hp-search-box{
+	width: 100%;
+}
+.hp-search-title{
+	width: 100%;
+	height: 40px;
+	background: #FAFAFA;
+	border: 1px solid #E4E4E4;
+	cursor: pointer;
+}
+.hp-search-title span{
+	line-height: 40px;
+	font-size: 16px;
+	color: #333333;
+	padding-left: 10px;
+}
+.hp-search-title a{
+	background: url(../images/icon1.png) no-repeat;
+	display: block;
+	float: right;
+	width: 15px;
+	height: 15px;
+	margin-right: 10px;
+	margin-top: 15px ;
+}
+.hp-search-title a.hp-up{
+	background: url(../images/icon2.png) no-repeat !important;
+}
+.hp-search-tab-box{
+	display: none;
+	background: #FAFAFA;
+	border: 1px solid #E4E4E4;
+	width: 100%;
+	padding:10px;
+	border-top: 0;
+}
+.hp-search-tab-box table{
+	width: 100%;
+}
+.hp-search-tab-box table th,.hp-search-tab-box table td{
+	height: 50px;
+	line-height: 30px;
+}
+.hp-search-tab-box table th{
+	font-weight: 100;
+}
+.hp-search-tab-box table td input[type=text]{
+	width: 150px;
+	height: 30px;
+	line-height: 30px;
+	padding-left: 10px;
+	border:1px solid #CCCCCC;
+	background: #fff;
+}
+.hp-btn-search{
+	background: #666666;
+}
+.hp-btn-search:hover{
+	background: #007EA8;
+}
+.hp-btn-box{
+	width: 100%;
+	height: 40px;
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+.hp-btn-box input[type=button]{
+	background: #FF9900;
+	font-size: 14px;
+	float: left;
+	margin-right: 10px;
+}
+.hp-btn-box input[type=button]:hover{
+	background: #FF6600;
+}
+.hp-common-box{
+	width: 100%;
+	margin-top: 10px;
+}
+.hp-common-box table{
+	width: 100%;
+}
+.hp-common-box table th,.hp-common-box table td{
+	height: 45px;
+}
+.hp-common-box table th{
+	font-weight: 100;
+	text-align: right;
+	padding-right: 10px;
+}
+.hp-common-box table th.req{
+	color: #FF0000;
+}
+.hp-common-box table td input[type=text],.hp-common-box table td input[type=password]{
+	width: 300px;
+	height: 30px;
+	line-height: 30px;
+	border: 1px solid #CCCCCC;
+	background: #fff;
+	padding-left: 10px;
+}
+.wid5{
+	width: 100px !important;
+}
+.hp-common-box table td input[readonly=readonly],.hp-common-box table td input[disabled=disabled]{
+	background: #F2F2F2;
+}
+.hp-common-box table td textarea{
+	width: 300px;
+	min-height: 120px;
+	border: 1px solid #CCCCCC;
+	background: #fff;
+	padding: 10px;
+	margin-top: 10px;
+}
+.hp-nav-box{
+	width: 100%;
+	margin: 0 auto;
+	height: 40px;
+	line-height: 40px;
+}
+.hp-nav-box span{
+	font-size: 12px;
+	color: #666666;
+}
+.hp-fp-box{
+	width: 100%;
+}
+.hp-fp-item1{
+	width: 436px;
+	float: left;
+}
+.hp-fp-item2{
+	width: 100px;
+	float: left;
+}
+.hp-fp-item2>div{
+	width: 65px;
+	margin: 0 auto;
+	margin-top: 120px;
+}
+.hp-fp-item2>div input[type=button]{
+	min-width: 65px;
+	font-size: 16px;
+	color: #fff;
+	height: 30px;
+	margin-bottom: 10px;
+}
+.hp-fp-item2>div .btn-yx{
+	background: #99CC00;
+}
+.hp-fp-item2>div .btn-wx{
+	background: #FF9900;
+}
+.hp-fp-item2>div .btn-yx:hover{
+	background: #80AA00;
+}
+.hp-fp-item2>div .btn-wx:hover{
+	background: #FF6600;
+}
+.hp-fp-search-tit{
+	width: 100%;
+	height: 36px;
+	line-height: 36px;
+	text-align: center;
+	font-size: 14px;
+	color: #fff;
+	background: #666666;
+}
+.hp-fp-search-tab{
+	border: 1px solid #CCCCCC;
+	padding: 10px 0;
+	margin-bottom: 10px;
+}
+.hp-fp-search-box table{
+	width: 100%;
+	
+}
+.hp-fp-search-box th,.hp-fp-search-box td{
+	height: 40px;
+}
+.hp-fp-search-box th{
+	font-weight: 100;
+}
+.hp-fp-search-box td input[type=text]{
+	width: 80px;
+	height: 30px;
+	background: #fff;
+	border: 1px solid #CCCCCC;
+	padding-left: 5px;
+}
+.hp-fp-search-box td input[type=button]{
+	background: #666666;
+}
+.hp-fp-search-box td input[type=button]:hover{
+	background: #007EA8;
+}
+.hp-box-title a{
+	float: right;
+	color: #5959FF;
+	display: none;
+}

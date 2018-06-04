@@ -1,0 +1,12 @@
+/**
+ * dialog组件样式
+ */
+.libuttonokstyle{
+	background: #666;
+}
+.libuttonokstyle:hover{
+	background-color: #ccc;
+}
+.ulstyle{
+	background: #666;
+}

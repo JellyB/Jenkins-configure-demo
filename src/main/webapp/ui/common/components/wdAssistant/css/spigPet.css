@@ -1,0 +1,41 @@
+/*样式设置*/
+.spig
+{
+    display: block;
+    width: 160px;
+    height: 190px;
+    position: absolute;
+    top: -200px;
+    left: 160px;
+    z-index: 9999;
+}
+#wd_message
+{
+    color: #191919;
+    border: 1px solid #c4c4c4;
+    background: #ddd;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    min-height: 1em;
+    padding: 5px;
+    top: -30px;
+    position: absolute;
+    text-align: left;
+    width: 160px !important;
+    z-index: 10000;
+    -moz-box-shadow: 0 0 15px #eeeeee;
+    -webkit-box-shadow: 0 0 15px #eeeeee;
+    border-color: #eeeeee;
+    box-shadow: 0 0 15px #eeeeee;
+    outline: none;
+    left: -30px;
+    font-size: 12px;
+}
+.mumu
+{
+    width: 100px;
+    height: 170px;
+    cursor: move;
+    background: url(../images/xiaowei.png) no-repeat;
+}

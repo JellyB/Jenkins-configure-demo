@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wdcloud.ptxtgl.user.mapper.UserMapper" >
+	
+	
+	<sql id="fetchUserInfoSql">
+		select id, loginid, loginname, username, nickname, passwd from t_sysmgr_user
+	</sql>
+	
+	<select id = "checkUserExist" parameterType="java.util.Map" resultType="java.lang.Integer">
+		<![CDATA[
+			select count(id) from t_sysmgr_user  
+			where status = '1'
+		]]>
+		<if test=" id != null and id != ''">
+			<![CDATA[
+			and id <>#{id,jdbcType=BIGINT}
+			]]>
+		</if>	
+			and loginname=#{loginname,jdbcType=VARCHAR}
+		
+	</select>
+	
+	<insert id="createUser" parameterType="com.wdcloud.ptxtgl.user.entity.User">
+		<![CDATA[
+			insert into t_sysmgr_user(id,username,sex,loginid,loginname,passwd,usertype,status,registertime,
+				descn,nickname,delflag,operatercode,operatetime,creatercode,creatertime,versions)
+				values(#{id,jdbcType=BIGINT},#{username,jdbcType=VARCHAR},#{sex,jdbcType=CHAR},#{loginid,jdbcType=VARCHAR},
+					   #{loginname,jdbcType=VARCHAR},#{passwd,jdbcType=VARCHAR},#{usertype,jdbcType=VARCHAR},
+					   #{status,jdbcType=VARCHAR},#{registertime,jdbcType=TIMESTAMP},#{descn,jdbcType=VARCHAR},
+					   #{nickname,jdbcType=VARCHAR},#{delflag,jdbcType=VARCHAR},#{operatercode,jdbcType=VARCHAR},
+					   #{operatetime,jdbcType=TIMESTAMP},#{creatercode,jdbcType=VARCHAR},#{creatertime,jdbcType=TIMESTAMP},
+					   #{versions,jdbcType=VARCHAR})
+		]]>
+	</insert>
+	
+	<select id="loadUserMesg" parameterType="java.lang.String" resultType="com.wdcloud.ptxtgl.user.entity.User">
+		<![CDATA[
+			select id, username, sex, loginid, loginname, usertype, nickname, descn
+			from t_sysmgr_user
+			where id=#{id,jdbcType=BIGINT}
+			and delflag <> 'D'
+		]]>
+	</select>
+	
+ 	<update id="deleteUserByLogic" parameterType="java.util.Map"> 		
+			update t_sysmgr_user set
+				delflag = #{delflag,jdbcType=VARCHAR},
+				operatercode = #{operatercode,jdbcType=VARCHAR},
+				operatetime = #{operatetime,jdbcType=TIMESTAMP},
+				versions = #{versions,jdbcType=BIGINT}
+			    where id = #{id,jdbcType=VARCHAR}
+	</update>
+	
+	<update id="updateUser" parameterType="map">
+		<![CDATA[
+			update t_sysmgr_user set			
+			operatercode=#{operatercode,jdbcType=VARCHAR},
+			operatetime=#{operatetime,jdbcType=TIMESTAMP},
+			versions=#{versions,jdbcType=BIGINT},
+		]]>
+		<if test=" loginname != null and loginname != ''">
+			loginname=#{loginname,jdbcType=VARCHAR},
+		</if>
+		<if test=" nickname != null and nickname != ''">
+			nickname=#{nickname,jdbcType=VARCHAR},
+		</if>
+		<if test=" username != null and username != ''">
+			username=#{username,jdbcType=VARCHAR},
+		</if>
+		<if test=" birthday != null and birthday != ''">
+			birthday=#{birthday,jdbcType=TIMESTAMP},
+		</if>
+		<if test=" cellphone != null and cellphone != ''">
+			cellphone=#{cellphone,jdbcType=VARCHAR},
+		</if>
+		<if test=" email != null and email != ''">
+			email=#{email,jdbcType=CHAR},
+		</if>
+		<if test=" descn != null and descn != ''">
+			descn=#{descn,jdbcType=CHAR},
+		</if>
+		<![CDATA[
+			delflag=#{delflag,jdbcType=VARCHAR}			
+			where id =#{id,jdbcType=VARCHAR}
+		]]>
+	</update>
+	
+	<select id="listUserCountByConditions" parameterType="map" resultType="java.lang.Integer">
+		<![CDATA[
+			select count(id) from t_sysmgr_user 
+			where status = '1' and delflag <> 'D'
+		]]>
+		<if test="loginid != null and loginid != ''">
+			and loginid like "%${loginid}%"
+		</if>
+		<if test="loginname != null and loginname != ''">
+			and loginname like "%${loginname}%"
+		</if>
+		<if test="username != null and username != ''">
+			and username like "%${username}%"
+		</if>
+		<if test="nickname != null and nickname != ''">
+			and nickname like "%${nickname}%"
+		</if>
+	</select>
+	
+	<select id="listUserByConditions" parameterType="map" resultType="com.wdcloud.ptxtgl.user.entity.User">
+		<![CDATA[
+			select id,username,sex,loginid,loginname,usertype,cellphone,email,registertime,nickname,creatercode,creatertime
+			from t_sysmgr_user
+			where status = '1' and delflag <> 'D'
+		]]>
+		<if test="loginid != null and loginid != ''">
+			and loginid like "%${loginid}%"
+		</if>
+		<if test="loginname != null and loginname != ''">
+			and loginname like "%${loginname}%"
+		</if>
+		<if test="username != null and username != ''">
+			and username like "%${username}%"
+		</if>
+		
+		<if test="nickname != null and nickname != ''">
+			and nickname like "%${nickname}%"
+		</if>			
+			order by creatertime desc
+			limit #{pageStart}, #{pageSize}
+	</select>	
+	
+	<update id="resetPasswd" parameterType="com.wdcloud.ptxtgl.user.entity.User">
+			update t_sysmgr_user  set
+			operatercode=#{operatercode,jdbcType=VARCHAR},
+			operatetime=#{operatetime,jdbcType=TIMESTAMP},
+			versions=#{versions,jdbcType=BIGINT},
+			delflag=#{delflag,jdbcType=CHAR},
+			passwd=#{passwd,jdbcType=VARCHAR}
+			where id=#{id,jdbcType=BIGINT}
+	</update>
+	
+	
+	<select id="fetchUserInfo" parameterType="java.lang.String" resultType="com.wdcloud.ptxtgl.user.entity.User">
+		<![CDATA[
+			select id, loginid, loginname, username, nickname
+			from t_sysmgr_user
+			where loginid=#{loginid, jdbcType=VARCHAR}
+			and delflag <> 'D'
+		]]>
+	</select>
+	
+	<select id="fetchUserByLoginId" parameterType="java.lang.String" resultType="com.wdcloud.ptxtgl.user.entity.User">
+		<include refid="fetchUserInfoSql"/>
+		<![CDATA[
+			where loginid=#{loginId, jdbcType=VARCHAR}
+			and delflag <> 'D'
+		]]>
+	</select>
+	
+	
+	<select id="fetchUserByLoginName" parameterType="java.lang.String" resultType="com.wdcloud.ptxtgl.user.entity.User">
+		<include refid="fetchUserInfoSql"/>
+		<![CDATA[
+			where loginname=#{loginName, jdbcType=VARCHAR}
+			and delflag <> 'D'
+		]]>
+	</select>
+</mapper>

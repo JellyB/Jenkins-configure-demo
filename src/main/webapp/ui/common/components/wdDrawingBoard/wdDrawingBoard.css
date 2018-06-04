@@ -1,0 +1,73 @@
+.wdDrawingBoardwork {
+	position: fixed;
+	z-index: 99999;
+	width: 10px;
+	height: 10px;
+	border-radius: 10px;
+	font-size: 1px;
+	overflow: hidden;
+}
+.wdDrawingBoardmap {
+	width: 100%;
+	height: 100%;
+	background-color: #666666;
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	filter: alpha(opacity=30);
+	opacity: 0.3;
+	z-index: 99998;
+}
+.wdDrawingBoardClose {
+	position: fixed;
+	z-index: 99999;
+	height: 30px;
+	line-height: 30px;
+	width: 50px;
+	cursor: pointer;
+	right: 30px;
+	top: 30px;
+	text-align: center;
+	background-color: brown;
+	color: #fff;
+	border-radius: 4px;
+	font-size: 14px;
+}
+.wdDrawingBoardClear {
+	position: fixed;
+	z-index: 99999;
+	height: 30px;
+	line-height: 30px;
+	width: 50px;
+	cursor: pointer;
+	right: 90px;
+	top: 30px;
+	text-align: center;
+	background-color: brown;
+	color: #fff;
+	border-radius: 4px;
+	font-size: 14px;
+}
+.wdDrawingBoardColorBox {
+	position: fixed;
+	top: 30px;
+	left: 10px;
+	z-index: 99999;
+}
+.wdDrawingBoardColorBox .wdDrawingBoardColorSelect {
+	border: 2px solid white !important;
+}
+.wdDrawingBoardColorBox .wdDrawingBoardColor {
+	float: left;
+	width: 30px;
+	height: 30px;
+	border-radius: 30px;
+	float: left;
+	cursor: pointer;
+	margin-left: 20px;
+}
+.wdDrawingBoardColorBox .wdDrawingBoardColor:hover {
+	border: 2px solid white !important;
+}

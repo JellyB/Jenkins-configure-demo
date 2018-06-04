@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+	http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd"
+	default-autowire="byName">
+
+	<bean scope="singleton" id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath*:conf/jdbc.properties</value>
+				<value>classpath*:conf/security.properties</value>
+				<value>classpath*:conf/hcache.properties</value>
+				<value>classpath*:conf/common.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 不扫描@Controller -->
+	<context:component-scan base-package="com.wdcloud">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/> 
+    </context:component-scan>
+	
+	<!-- mybatis sessionFactory -->
+	<bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<!-- 自动注入所有mapper接口类和sql映射文件，注意接口类和sql映射文件必须在相同的包路径下 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.wdcloud.**.mapper" />
+    </bean>
+	<!-- mybatis-spring 模板类 -->
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+       <constructor-arg index="0" ref="sessionFactory" />
+    </bean>
+	<!-- 自定义 mybatis-spring 模板类 -->
+    <bean id="mySqlSession" class="com.wdcloud.framework.dao.mybatis.MyBatisTemplate">
+       <constructor-arg index="0" ref="sqlSession" />
+    </bean>
+    
+    <!-- spring事物控制 -->
+	<bean scope="singleton" id="transactionManager"	class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="get*" read-only="true" propagation="REQUIRED" />
+			<tx:method name="find*" read-only="true" propagation="REQUIRED" />
+			<tx:method name="search*" read-only="true" propagation="REQUIRED" />
+			<tx:method name="check*" read-only="true" propagation="REQUIRED" />
+			<tx:method name="create*" propagation="REQUIRED" />
+			<tx:method name="save*" propagation="REQUIRED" rollback-for="Exception"/>
+			<tx:method name="update*" propagation="REQUIRED" rollback-for="Exception"/>
+			<tx:method name="delete*" propagation="REQUIRED" />
+			<tx:method name="remove*" propagation="REQUIRED" />
+			<tx:method name="batch*" propagation="REQUIRED" />
+			<tx:method name="execute*" propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice>
+	<aop:config>
+		<aop:advisor pointcut="execution(* com.wdcloud..service..*.*(..))" advice-ref="txAdvice"/>
+	</aop:config>
+    
+	<!-- 后台方法监控日志切面设置 -->
+	<!-- <bean scope="singleton" id="monitorLogInterceptor" class="com.wdcloud.framework.core.log.MonitorLogInterceptor" />
+	<aop:config>
+		<aop:advisor pointcut="execution(* com.wdcloud.framework..*.*(..))" advice-ref="monitorLogInterceptor"/>
+	</aop:config> -->
+	
+	<!-- 数据源定义,开发阶段使用连接池  -->
+	<bean scope="singleton" id="dataSource"
+		class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close"> 
+	      <!-- 基本属性 url、user、password -->
+	      <property name="url" value="${jdbc.url}" />
+	      <property name="username" value="${jdbc.username}" />
+	      <property name="password" value="${jdbc.password}" />
+	      <!-- 配置初始化大小、最小、最大 -->
+	      <property name="initialSize" value="${jdbc.initialSize}" />
+	      <property name="minIdle" value="${jdbc.minIdle}" />
+	      <property name="maxActive" value="${jdbc.maxActive}" />
+	      <!-- 配置获取连接等待超时的时间 -->
+	      <property name="maxWait" value="60000" />
+	      <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+	      <property name="timeBetweenEvictionRunsMillis" value="60000" />
+	      <!-- 配置一个 连接在池中最小生存的时间，单位是毫秒 -->
+	      <property name="minEvictableIdleTimeMillis" value="300000" />
+	      <property name="validationQuery" value="SELECT 'x'" />
+	      <property name="testWhileIdle" value="true" />
+	      <property name="testOnBorrow" value="false" />
+	      <property name="testOnReturn" value="false" />
+	      <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+	      <property name="poolPreparedStatements" value="true" />
+	      <property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
+	      <!-- 配置监控统计拦截的filters -->
+	      <property name="filters" value="stat" />
+	</bean>
+
+	<!-- 通过JDBC模版获取数据库连接 -->
+	<bean scope="singleton" id="jdbcTemplate"
+		class="org.springframework.jdbc.core.JdbcTemplate">
+	</bean>
+	<bean scope="singleton" id="lobHandler"
+		class="org.springframework.jdbc.support.lob.DefaultLobHandler"
+		lazy-init="true" />
+	<bean scope="singleton" id="nativeJdbcExtractor"
+		class="org.springframework.jdbc.support.nativejdbc.CommonsDbcpNativeJdbcExtractor"
+		lazy-init="true" />
+	<bean scope="singleton" id="oracleLobHandler"
+		class="org.springframework.jdbc.support.lob.OracleLobHandler"
+		lazy-init="true">
+		<property name="nativeJdbcExtractor" ref="nativeJdbcExtractor" />
+	</bean>
+	
+		<!-- 管理session -->
+	<bean id="sessionInfoHolder" class="com.wdcloud.login.client.session.SimpleSessionInfoHolder"/>
+	
+	<!-- 系统公共service -->
+	<bean scope="singleton" id="systemService" class="com.wdcloud.framework.core.service.imp.SystemServiceImp"></bean>
+	
+	<!-- 校验框架后端到前端转换接口 -->
+	<bean scope="singleton" id="validatorRuleConverter" class="com.wdcloud.framework.web.springmvc.validation.ValidatorRuleConverterDefaultImp"></bean>
+	
+	<!-- 校验框架后端到前端转换接口 -->
+	<bean scope="singleton" id="sequenceService" class="com.wdcloud.framework.core.service.imp.SequenceServiceDefaultImp"></bean>
+	
+	<!-- 日志信息接口 -->
+	<bean scope="singleton" id="logInterface" class="com.wdcloud.framework.web.springmvc.log.LogInterfaceImpDefault"></bean>
+
+	<!-- 系统管理内部接口 -->
+	<bean id="userRoleService" class="com.wdcloud.ptxtgl.userRole.service.impl.UserRoleServiceImpl"/>
+	<bean id="moduleService" class="com.wdcloud.ptxtgl.module.service.impl.ModuleServiceImp" />
+	<bean id="permissionService" class="com.wdcloud.ptxtgl.permission.service.impl.PermissionServiceImp" />
+	<bean id="resourceService" class="com.wdcloud.ptxtgl.resource.service.impl.ResourceServiceImp" />
+	
+	
+</beans>

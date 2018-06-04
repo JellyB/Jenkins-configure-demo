@@ -1,0 +1,558 @@
+/*时间轴区域*/
+
+.wdtimeline {
+	width: 100%;
+}
+
+
+/*第一层区域*/
+
+.wdtimeline .timelinebox-first {
+	width: 100%;
+	height: 300px;
+	position: relative;
+}
+
+
+/*第一层-点*/
+
+.timelinebox-first .wdtimepoint {
+	position: absolute;
+	width: 14px;
+	height: 14px;
+	border-radius: 15px;
+	top: 50%;
+	left: 50%;
+	margin-left: -7px;
+}
+
+
+/*第一层-左线*/
+
+.timelinebox-first .leftline {
+	position: absolute;
+	width: 120px;
+	height: 6px;
+	top: 50%;
+	left: 50%;
+	margin-top: 3px;
+	margin-left: -127px;
+}
+
+
+/*第一层-右线*/
+
+.timelinebox-first .rightline {
+	position: absolute;
+	width: 120px;
+	height: 6px;
+	top: 50%;
+	left: 50%;
+	margin-top: 3px;
+	margin-left: 7px;
+}
+
+
+/*第一层-上竖线*/
+
+.timelinebox-first .topline {
+	width: 6px;
+	height: 40px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-left: -3px;
+	margin-top: -40px;
+}
+
+
+/*第一层-下竖线*/
+
+.timelinebox-first .bottomline {
+	width: 6px;
+	height: 150px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-left: -3px;
+	margin-top: 14px;
+}
+
+
+/*第一层-左区*/
+
+.timelinebox-first .lefttembox {
+	height: 100px;
+	width: 340px;
+	left: 50%;
+	position: absolute;
+	margin-left: -475px;
+	top: 50%;
+	margin-top: -50px;
+}
+
+
+/*第一层-右区*/
+
+.timelinebox-first .rightitembox {
+	height: 100px;
+	width: 340px;
+	left: 50%;
+	position: absolute;
+	margin-left: 137px;
+	top: 50%;
+	margin-top: -50px;
+}
+
+
+/*第一层-上线显示内容box*/
+
+.timelinebox-first .topitembox {
+	height: 100px;
+	width: 316px;
+	left: 50%;
+	position: absolute;
+	margin-left: -47px;
+}
+
+
+/*第一层-上线显示内容-头像*/
+
+.timelinebox-first .topitembox .tx {
+	width: 100px;
+	height: 100px;
+	border-radius: 100px;
+	background: url(images/gly.png);
+}
+
+
+/*第一层-右线显示内容-头像*/
+
+.timelinebox-first .rightitembox .tx {
+	width: 100px;
+	height: 100px;
+	border-radius: 100px;
+	background: url(images/ptzc.png);
+}
+
+
+/*第一层-左线显示内容-头像*/
+
+.timelinebox-first .lefttembox .tx {
+	width: 100px;
+	height: 100px;
+	border-radius: 100px;
+	float: right;
+	background: url(images/jrz.png);
+}
+
+
+/*第一层-右框-描述信息位置*/
+
+.timelinebox-first .rightitembox .msgpositionright {
+	position: absolute;
+	top: 50%;
+	margin-top: -20px;
+	margin-left: 116px;
+}
+
+
+/*第一层-左框-描述信息位置*/
+
+.timelinebox-first .lefttembox .msgpositionleft {
+	margin-right: 120px;
+	float: right;
+	margin-top: -70px;
+}
+
+
+/*第一层-上框-描述信息位置*/
+
+.timelinebox-first .topitembox .msgpositiontop {
+	position: absolute;
+	top: 50%;
+	margin-top: -40px;
+	margin-left: 116px;
+}
+
+
+/*第一层-右框-箭头*/
+
+.timelinebox-first .rightitembox .timelinearrowrigth-left {
+	top: 42px;
+	left: 100px;
+	border-width: 8px;
+	border-right-style: solid;
+	border-right-color: #03B8A7;
+}
+
+
+/*第一层-上框-箭头*/
+
+.timelinebox-first .topitembox .timelinearrowtop-left {
+	top: 42px;
+	left: 100px;
+	border-width: 8px;
+	border-right-style: solid;
+	border-right-color: #FF8300;
+}
+
+
+/*第一层-左框-箭头*/
+
+.timelinebox-first .lefttembox .timelinearrowleft-right {
+	top: 42px;
+	left: 220px;
+	border-width: 8px;
+	border-left-style: solid;
+	border-left-color: #6187DC;
+}
+
+
+/*****************************************************************/
+
+
+/*第一层以外内容区*/
+
+.wdtimeline .timelinebox {
+	width: 100%;
+	height: 150px;
+	position: relative;
+}
+
+
+/*第一层以外-右线*/
+
+.timelinebox .rightline {
+	position: absolute;
+	width: 120px;
+	height: 6px;
+	left: 50%;
+	margin-top: 3px;
+	margin-left: 7px;
+}
+
+
+/*第一层以外点*/
+
+.timelinebox .wdtimepoint {
+	position: absolute;
+	width: 14px;
+	height: 14px;
+	border-radius: 15px;
+	left: 50%;
+	margin-left: -7px;
+}
+
+
+/*第一层以外-左框-描述信息位置*/
+
+.timelinebox .lefttembox .msgpositionleft {
+	margin-top: 13px;
+	float: right;
+	margin-right: 10px;
+}
+
+
+/*第一层以外-左框-描述标题位置*/
+
+.timelinebox .lefttembox .lefttitle {
+	color: #6187DC;
+	font-size: 20px;
+	font-weight: bold;
+	width: 100%;
+	text-align: right;
+	display: block;
+}
+
+
+/*第一层以外-右框-描述标题位置*/
+
+.timelinebox .rightitembox .lefttitle {
+	color: #FF8300;
+	font-size: 20px;
+	font-weight: bold;
+	width: 100%;
+	text-align: left;
+	display: block;
+}
+
+
+/*第一层以外-左框-箭头*/
+
+.timelinebox .lefttembox .timelinearrowleft-top {
+	top: 20px;
+	right: 20px;
+	border-width: 8px;
+	border-bottom-style: solid;
+	border-bottom-color: #6187DC;
+}
+
+
+/*第一层以外-左线*/
+
+.timelinebox .leftline {
+	position: absolute;
+	width: 120px;
+	height: 6px;
+	left: 50%;
+	margin-top: 4px;
+	margin-left: -127px;
+}
+
+
+/*第一层以外-右框-描述信息位置*/
+
+.timelinebox .rightitembox .msgpositionright {
+	width: 300px;
+	height: 80px;
+	margin-top: 13px;
+	border-radius: 4px;
+	float: left;
+	margin-left: 10px;
+}
+
+
+/*第一层以外-右框-箭头*/
+
+.timelinebox .rightitembox .timelinearrowright-top {
+	top: 20px;
+	left: 20px;
+	border-width: 8px;
+	border-bottom-style: solid;
+	border-bottom-color: #FF8300;
+}
+
+
+/*第一层以外-下线*/
+
+.timelinebox .bottomline {
+	width: 6px;
+	height: 150px;
+	position: absolute;
+	left: 50%;
+	margin-left: -3px;
+	margin-top: 14px;
+}
+
+
+/*第一层以外-左区*/
+
+.timelinebox .lefttembox {
+	height: 100px;
+	width: 340px;
+	left: 50%;
+	position: absolute;
+	margin-left: -475px;
+}
+
+
+/*第一层以外-右区*/
+
+.timelinebox .rightitembox {
+	height: 100px;
+	width: 340px;
+	left: 50%;
+	position: absolute;
+	margin-left: 137px;
+}
+
+
+/*****************************************************************/
+
+.exceptionposition {
+	height: 200px !important;
+}
+
+.exceptionposition .exceptionboxposition {
+	height: 150px;
+}
+
+.exceptionitems {
+	width: 400px;
+	height: 90px;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-top: -70px;
+	border-radius: 4px;
+	background: #03B8A7;
+	margin-left: 50px;
+	padding: 5px;
+	font-size: 14px;
+	color: #fff;
+}
+
+
+/*例外区域标题*/
+
+.timelinebox .exceptiontitle {
+	position: absolute;
+	top: 10px;
+	left: 20px;
+	color: #1E1E1E;
+	font-size: 18px;
+}
+
+.timelinebox .exceptionitembox {
+	height: 100%;
+	width: 200px;
+	position: absolute;
+	top: 0px;
+	left: 50%;
+	margin-left: -250px;
+}
+
+.timelinebox .exceptionarrowposition-left {
+	top: 50%;
+	left: 50%;
+	margin-left: 34px;
+	margin-top: -30px;
+	border-width: 8px;
+	border-right-style: solid;
+	border-right-color: #03B8A7;
+}
+
+.timelinebox .exceptionitembox .exceptionarrowposition-top {
+	top: 0px;
+	left: 50%;
+	margin-left: -4px;
+	border-width: 8px;
+	border-bottom-style: solid;
+	border-bottom-color: #03B8A7;
+}
+
+.timelinebox .exceptionitembox .exceptionline-top {
+	position: absolute;
+	width: 6px;
+	height: 40px;
+	left: 50%;
+	margin-left: 1px;
+	margin-top: 14px;
+	background: #03B8A7;
+}
+
+.timelinebox .exceptionitembox .exceptionarrowposition-bottom {
+	bottom: 50px;
+	left: 50%;
+	margin-left: -4px;
+	border-width: 8px;
+	border-top-style: solid;
+	border-top-color: #03B8A7;
+}
+
+.timelinebox .exceptionitembox .exceptionline-bottom {
+	position: absolute;
+	width: 6px;
+	height: 40px;
+	left: 50%;
+	margin-left: 1px;
+	margin-top: 0px;
+	background: #03B8A7;
+}
+
+.timelinebox .exceptionitembox .exceptionitem {
+	width: 200px;
+	height: 40px;
+	color: #03B8A7;
+	font-size: 20px;
+	line-height: 40px;
+	background: #FFF;
+	border-radius: 4px;
+	text-align: center;
+	font-weight: bold;
+	margin-top: 54px;
+}
+
+
+/*****************************************************************/
+
+
+/*common-描述信息体*/
+
+.msgitem {
+	width: 300px;
+	min-height: 80px;
+	border-radius: 4px;
+	text-align: left;
+	color: #fff;
+	font-size: 16px;
+	padding: 5px;
+}
+
+
+/*common箭头*/
+
+.timelinearrow {
+	position: absolute;
+	display: inline-block;
+	width: 0;
+	height: 0;
+	line-height: 0;
+	border-style: dashed;
+	border-color: transparent;
+	font-size: 0;
+	border-bottom-style: solid;
+}
+
+
+/*common-背景色#03B8A7*/
+
+.timetimelinecolor03B8A7 {
+	background: #03B8A7;
+}
+
+
+/*common-背景色#6187DC*/
+
+.timetimelinecolor6187DC {
+	background: #6187DC;
+}
+
+
+/*common-背景色#FF8300*/
+
+.timetimelinecolorFF8300 {
+	background: #FF8300;
+}
+
+
+/*common-背景色#CCCCCC*/
+
+.timetimelinecolorCCCCCC {
+	background: #CCCCCC;
+}
+
+.timetimelinecolorimgCCCCCC {
+	background: url(images/CCCCCC.png);
+}
+
+.timetimelinecolorimgFF8300 {
+	background: url(images/FF8300.png);
+}
+
+.timetimelinecolorimg6187DC {
+	background: url(images/6187DC.png)
+}
+
+.timetimelinecolorimg008000 {
+	background: url(images/008000.png)
+}
+
+
+/*common-背景色#E4E4E4*/
+
+.timetimelinecolorE4E4E4 {
+	background: #E4E4E4;
+}
+
+.exceptiontimelineposition {
+	margin-top: 0 !important;
+	height: 200px !important;
+}
+.endpointtitle{
+	position: absolute;left: 50%;width: 300px;margin-left: -150px;text-align: center;top:20px;color: #008000;font-size: 20px;font-weight: bold;
+}
+.endpointmsg{
+	position: absolute;left: 50%;width: 300px;margin-left: -150px;text-align: center;top:50px;color: #FF8300;font-size: 16px;
+}

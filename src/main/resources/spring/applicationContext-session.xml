@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <bean class="com.wdcloud.hsession.Initializer">
+    </bean>
+
+    <bean id="sessionRepository" class="com.wdcloud.hsession.redis.RedisOperationsSessionRepository">
+        <constructor-arg name="redisDataSource" value="session"></constructor-arg>
+        <property name="defaultMaxInactiveInterval" value="14400"></property>
+    </bean>
+  
+    <bean id="springSessionRepositoryFilter" class="org.springframework.session.web.http.SessionRepositoryFilter">
+        <constructor-arg name="sessionRepository" ref="sessionRepository"></constructor-arg>
+        <property name="httpSessionStrategy" ref="cookieHttpSessionStrategy"/>
+    </bean>
+                
+    <bean id="cookieHttpSessionStrategy" class="org.springframework.session.web.http.CookieHttpSessionStrategy">
+    	<property name="cookieName" value="_SESSION" />
+    </bean>
+</beans>

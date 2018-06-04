@@ -1,0 +1,94 @@
+.wd-bottommenu .wd-menutitle {
+	background: #FAFAFA url(images/code.png) no-repeat center center;
+	border: 1px solid #E4E4E4;
+	float: left;
+}
+
+.wd-bottommenu .wd-menubox {
+	border: 1px solid #E4E4E4;
+	float: left;
+	position: relative;
+	color: #666666;
+	text-align: center;
+	background: #FAFAFA;
+	font-size: 14px;
+	margin-left: -1px;
+}
+.wd-bottommenu .wd-menubox>span{
+	border:1px solid transparent;
+}
+.wd-bottommenu .wd-menubox>span:hover {
+	border: 1px solid #009DD9;
+	background: #FFF;
+	color: #009DD9;
+}
+
+.wd-bottommenu .wd-menubox .wd-subMenuAdd {
+	position: absolute;
+	border: 1px solid #E4E4E4;
+	background: #FAFAFA;
+	font-size: 24px;
+}
+.wd-bottommenu .wd-menubox .wd-subMenu {
+	font-size: 14px !important; 
+	text-align: center;
+	color: #666666;
+	z-index: 9999;
+}
+.wd-bottommenu .wd-menubox .wd-subMenuAdd .wd-subMenuInput{
+	border: 0;
+	background: #FAFAFA;
+	font-size: 14px;
+	color: #666666;
+	text-align: center;
+}
+.wd-bottommenu .wd-menubox .wd-arrow {
+	position: absolute;
+	width: 0;
+	height: 0;
+	border-left: 5px solid #FFF;
+	border-right: 5px solid #FFF;
+	border-top-width: 5px;
+	border-top-style: solid;
+	border-top-color: #E4E4E4;
+}
+
+.wd-bottommenu .wd-menubox .wd-menuedit {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	border: 0px;
+	background: #FAFAFA;
+	color: #666666;
+	text-align: center;
+	font-size: 14px;
+}
+
+.wd-bottommenu .wd-addmenu {
+	border: 1px solid #E4E4E4;
+	float: left;
+	color: #666666;
+	cursor: pointer;
+	text-align: center;
+	background: #FAFAFA;
+	font-size: 24px;
+	margin-left: -1px;
+}
+
+.wd-bottomOptBox {
+	height: 50px;
+	line-height: 50px;
+	margin-top: 20px;
+	text-align: center;
+}
+
+.wd-bottomOptBox .wd-bottomOpt {
+	background: #E4E4E4;
+	width: 80px;
+	height: 30px;
+	line-height: 30px;
+	border: 0;
+	font-size: 16px;
+	color: #666666;
+	cursor: pointer;
+}

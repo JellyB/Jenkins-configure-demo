@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>重置密码</title>
+		<link href="../../../ui/common/components/wdGrid/wdGrid.css" rel="stylesheet" />
+		<link href="../../../ui/common/components/wdselecttext/wdselecttext.css" rel="stylesheet" />
+		<link href="../../../ui/common/components/wdValidate/wdvalidateBox.css" rel="stylesheet" />
+		<link href="../../../ui/common/css/common.css" rel="stylesheet" type="text/css" />
+		<link href="../../../ui/common/css/style.css" rel="stylesheet" type="text/css" />
+	</head>
+	<body>
+		<form id="searchForm">
+			<div class="hp-common-box">
+				
+			</div>
+		</form>
+	</body>
+</html>
+<script src="../../../ui/common/js/jquery-1.10.2.js"></script>
+<script src="../../../ui/common/js/storejson2.min.js"></script>
+<script src="../../../ui/common/js/ractive-legacy.js"></script>
+<script src="../../../ui/common/js/require.js"></script>
+<script src="../../../ui/common/js/jquery.i18n.properties-1.0.9.js"></script>
+<script src="../../../ui/common/components/wddialog/wddialog.js"></script>
+<script src="../../../ui/common/components/wdselecttext/wdselecttext.js"></script>
+<script src="../../../ui/common/components/wdValidate/wdvalidateBox.js"></script>
+<script src="../../../ui/common/js/common.js"></script>
+<script>
+	$(function(){
+		$.get('../../template/gly-czmm.html', function(template) {
+			var ractive = new Ractive({
+				el: '.hp-common-box',
+				template: template,
+				oncomplete: function() {
+					//加载国际化文件
+					loadProperties(ractive, "ptxtgl-gly", getLanguageFromCookie("language"));
+				}
+			});
+		});
+	});
+	function glyaddfn(){
+		return validateForm();
+	}
+</script>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+	http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd"
+	default-autowire="byName">
+
+	
+	<bean id="cacheManager" class="com.wdcloud.hcache.spi.spring.CacheManagerBean">
+    	<property name="configLocation" value="conf/hcache.properties"></property>
+	</bean>
+	<bean id="springCacheManager" class="com.wdcloud.hcache.spi.spring.SpringCacheManager"> 
+    	<property name="cacheManager" ref="cacheManager"></property> 
+	</bean>
+	
+	<aop:config proxy-target-class="false">
+		<aop:advisor advice-ref="cacheAdvice"
+				pointcut="execution(* com.wdcloud..service..*.*(..))" />
+    </aop:config> 
+    
+	<cache:advice id="cacheAdvice" cache-manager="springCacheManager">
+		<cache:caching cache="ptxtgl">
+			<cache:cacheable method="getResourceUrlByUserIdandAppkey" key="#userIdAppkey"/>
+		</cache:caching>
+	</cache:advice>
+</beans>

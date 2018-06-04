@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="ptxtgl:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="ptxtgl.war">
+      <element id="artifact" artifact-name="ptxtgl:war exploded" />
+    </root>
+  </artifact>
+</component>

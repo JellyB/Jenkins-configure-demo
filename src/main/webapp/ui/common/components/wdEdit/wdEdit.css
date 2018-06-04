@@ -1,0 +1,28 @@
+.wd-edittoolbox{
+	height: 40px;
+	width: 100%;
+	background: #F6F6F6;
+}
+.wd-edittoolbox .wd-toolbox{
+	width: 40px;
+	height: 40px;
+	border: 1px solid red;
+	float: left;
+	cursor: pointer;
+}
+.wd-edittoolbox .wd-both{
+	background: red;
+}
+.wd-edittoolbox .wd-italic{
+	background: blue;
+}
+.wd-edittoolbox .wd-underline{
+	background: yellow;
+}
+.wd-editeditbox{
+	border: 1px solid red;
+}
+.wd-editeditbox .wd-editp{
+	margin: 0;
+	padding: 0;
+}

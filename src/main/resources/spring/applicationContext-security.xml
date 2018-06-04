@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:s="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+						http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd"
+	default-autowire="byName">
+
+	<!--**********************SpringSecurity过虑链配置开始*********************-->
+
+	<!-- springSecurityFilterChain过虑链在web.xml文件中声明 -->
+	<bean id="springSecurityFilterChain" class="org.springframework.web.filter.DelegatingFilterProxy">
+		<property name="targetBeanName" value="filterChainProxy" />
+	</bean>
+
+	<bean id="filterChainProxy" class="org.springframework.security.web.FilterChainProxy">
+		<s:filter-chain-map path-type="ant">
+		    <!-- 过滤掉静态文件 -->
+			<s:filter-chain pattern="/**/*.css" filters="none" />
+			<s:filter-chain pattern="/**/*.jpeg" filters="none" />
+			<s:filter-chain pattern="/**/*.jpg" filters="none" />
+			<s:filter-chain pattern="/**/*.gif" filters="none" />
+			<s:filter-chain pattern="/**/*.png" filters="none" />
+			<s:filter-chain pattern="/**/*.js" filters="none" />
+			<s:filter-chain pattern="/**/*.map" filters="none" />
+			<s:filter-chain pattern="/**/*.json" filters="none" />
+			<s:filter-chain pattern="/app/jsp/403.html" filters="none" />
+			<s:filter-chain pattern="/app/jsp/index.html" filters="none" />
+			<s:filter-chain pattern="/app/i18n/*.properties" filters="none" />
+			<s:filter-chain pattern="/app/template/**/*.html" filters="none" />
+			<s:filter-chain pattern="/security/captcha" filters="none" />
+			<s:filter-chain pattern="/language/**" filters="none" />
+			<s:filter-chain pattern="/services/**" filters="none" />
+			<!-- 过滤掉是否登录校验方法 -->
+			<s:filter-chain pattern="/validate/login" filters="none" />
+			<s:filter-chain pattern="/**" filters="sessionValidateFilter,authorityValidateFilter"/>
+		</s:filter-chain-map>
+	</bean>
+
+	<!-- sessin校验过滤器 -->
+	<bean id="sessionValidateFilter"
+		class="com.wdcloud.login.client.security.spring.SessionValidateFilter">
+		<property name="invalidSessionUrl" value="${security.local.invalidSessionUrl}" />
+		<property name="sessionInfoHolder" ref="sessionInfoHolder"/>
+	</bean>
+	
+	<!-- sessin校验过滤器 -->
+	<bean id="authorityValidateFilter"
+		class="com.wdcloud.ptxtgl.security.AuthorityValidateFilter">
+		<property name="invalidAccessUrl" value="${security.local.invalidAccessUrl}" />
+		<property name="sessionInfoHolder" ref="sessionInfoHolder"/>
+	</bean>
+	
+	<!-- <bean id="redirectStrategy" class="com.wdcloud.security.web.SimpleRedirectStrategy">
+    	<property name="contextRelative" value="true"/>
+    </bean> -->
+	
+	<!-- MD5加密 -->
+	<bean id="wdcloudMD5PasswordEncoder" class="com.wdcloud.common.util.WdcloudMD5PasswordEncoder">
+		<property name="salt" value="#wdcloud@yhzx$tyyh#" />
+	</bean>
+</beans>

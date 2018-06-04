@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<!-- 系统使用的配置 -->
+	<properties fileName="conf/security.properties">CONF_SECURITY</properties>
+	<properties fileName="conf/framework.properties">CONF_FRAMEWORK</properties>
+	<!--校验器配置 -->
+	<properties fileName="conf/validators.properties">CONF_VALIDATOR</properties>
+	<!-- 通用配置 -->
+	<properties fileName="conf/common.properties">CONF_COMMON</properties>
+</configuration>

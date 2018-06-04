@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+		<link href="../../ui/common/css/common.css" rel="stylesheet" type="text/css" />
+		<title>提示</title>
+	</head>
+	<body style="overflow: hidden;position: relative;" >
+		<div class="showtip"><div class="showtext">您没有足够的权限访问该系统，请点击<a id="fhsy" href="javascript:void(0);"/>返回首页</div></div>
+		
+	</body>
+</html>
+<script src="../../ui/common/js/jquery-1.10.2.js"></script>
+<script src="../../ui/common/js/addressList.js"></script>
+<script language="JavaScript">
+	$(function(){
+		$("#fhsy").click(function(){
+			$(this).attr("href",indexAddress)
+		})
+	})
+</script>

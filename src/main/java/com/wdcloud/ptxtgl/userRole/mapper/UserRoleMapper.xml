@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wdcloud.ptxtgl.userRole.mapper.UserRoleMapper" >
+
+	<select id="listUserRolesCountByUserId" parameterType="map" resultType="java.lang.Integer">
+		<![CDATA[
+		select count(r.id) from t_sysmgr_role r left join t_sysmgr_user_role u on r.id = u.roleid
+			where  u.userid = #{userid,jdbcType=VARCHAR}  and r.delflag <> 'D'
+				   
+		]]>
+		<if test="rolename != null and rolename != ''">
+			and r.rolename like "%${rolename}%"
+		</if>
+		<if test="rolecode != null and rolecode !='' ">
+			and r.rolecode like "%${rolecode}%"
+		</if>
+		<if test="appkey != null and appkey != '' ">
+			and r.appkey =#{appkey,jdbcType=VARCHAR}
+		</if>
+	</select>
+	
+	<select id="listUserRolesByUserId" resultType="com.wdcloud.ptxtgl.userRole.entity.UserRole" parameterType="map">
+		<![CDATA[
+			select u.userid as userid, u.roleid as id,
+				   r.rolecode, r.rolename, r.appkey, r.creatercode, r.creatertime
+			       from t_sysmgr_role r left join t_sysmgr_user_role u on r.id = u.roleid
+			where  u.userid = #{userid,jdbcType=VARCHAR}  and r.delflag <> 'D'
+				   
+		]]>
+		
+		<if test="rolename != null and rolename != '' ">
+			and r.rolename like "%${rolename}%"
+		</if>
+		<if test="rolecode != null and rolecode != '' ">
+			and r.rolecode like "%${rolecode}%"
+		</if>
+		<if test="appkey != null and appkey != '' ">
+			and r.appkey =#{appkey,jdbcType=VARCHAR}
+		</if>
+		<![CDATA[			
+			order by r.creatertime desc
+			limit #{pageStart}, #{pageSize}
+		]]>
+	</select>
+	
+	
+	<select id="listUserNotRolesCountByUserId" parameterType="map" resultType="java.lang.Integer">
+		<![CDATA[
+		select count(id) from t_sysmgr_role 
+			where id not in
+			( select roleid from t_sysmgr_user_role 
+			where userid = #{userid,jdbcType=VARCHAR})
+			and  delflag <> 'D'
+				   
+		]]>
+		<if test="rolename != null and rolename != ''">
+			and rolename like "%${rolename}%"
+		</if>
+		<if test="rolecode != null and rolecode !='' ">
+			and rolecode like "%${rolecode}%"
+		</if>
+		<if test="appkey != null and appkey != ''">
+			and appkey =#{appkey,jdbcType=VARCHAR}
+		</if>
+	</select>
+	
+	<select id="listUserNotRolesByUserId" parameterType="map" resultType="com.wdcloud.ptxtgl.role.entity.Role">
+		<![CDATA[
+			select id,rolename,rolecode,roletype,appkey,descn,creatercode,creatertime
+				from t_sysmgr_role
+				where id not in
+				(select roleid from t_sysmgr_user_role where userid =#{userid,jdbcType=VARCHAR})
+				and delflag <> 'D'
+		]]>
+		<if test="rolename != null and rolename != ''">
+			and rolename like "%${rolename}%"
+		</if>
+		<if test="rolecode != null and rolecode != ''">
+			and rolecode like "%${rolecode}%"
+		</if>
+		<if test="appkey != null and appkey != ''">
+			and appkey like "%${appkey}%"
+		</if>
+			order by creatertime desc
+			limit #{pageStart}, #{pageSize}
+	</select>	
+	
+	
+	<update id="deleteUserRolesByUserId" parameterType="java.util.Map">
+			delete from t_sysmgr_user_role 
+			where userid =#{userid,jdbcType=VARCHAR} 
+			and roleid in
+		<foreach collection="roleids" item="item" index="index" open="(" close =")" separator=",">
+			#{item,jdbcType=VARCHAR}
+		</foreach>
+	</update>
+	
+	<!-- <insert id="addUserRolesByUserId" parameterType="java.util.List">
+		<![CDATA[
+			insert into t_sysmgr_user_role (userid,roleid) values
+		]]>
+		<foreach collection="list" item="item" index="index"  separator=",">	
+			(#{item.userid,jdbcType=BIGINT},#{item.roleid,jdbcType=BIGINT})
+		</foreach>	
+	</insert> -->
+	
+	<insert id="addUserRolesByUserId" parameterType="java.util.Map">
+		<![CDATA[
+			insert into t_sysmgr_user_role (userid,roleid) values
+		]]>
+		<foreach collection="roleids" item="item" index="index"  separator=",">
+			(#{userid,jdbcType=BIGINT},#{item,jdbcType=BIGINT})
+		</foreach>
+	</insert>
+	
+	<select id="getRoleidByConditions" parameterType="java.util.Map" resultType="java.lang.String">
+		<![CDATA[
+			select id from t_sysmgr_role 
+			where rolecode =#{rolecode,jdbcType=VARCHAR}
+			and   appkey =#{appkey,jdbcType=VARCHAR}
+			and   delflag <> 'D'
+		]]>
+	</select>
+	<select id="getUsersByRole" parameterType="java.util.Map" resultType="com.wdcloud.ptxtgl.user.entity.User">
+		<![CDATA[
+			select u.id as id, u.username as username, u.loginname as loginname,
+			u.nickname as nickname, u.usertype as usertype, u.loginid as loginid
+			from t_sysmgr_user u left join t_sysmgr_user_role r on 
+			u.id = r.userid
+			where  r.roleid=#{roleid,jdbcType=VARCHAR}
+			and u.delflag <> 'D'
+		]]>
+	</select>
+	
+	<select id="getRolesByUserIdandAppkey" resultType="com.wdcloud.ptxtgl.role.entity.Role" parameterType="java.util.Map">
+		<![CDATA[
+			select r.id as id, r.rolecode, r.rolename
+	        from t_sysmgr_role r left join t_sysmgr_user_role u on r.id = u.roleid
+			where  u.userid = #{userid,jdbcType=VARCHAR}
+			and r.delflag <> 'D'
+			and r.appkey =#{appkey,jdbcType=VARCHAR}
+		]]>
+	</select>
+	
+	<select id="getRoleidsByUseridAndAppkey" resultType="java.lang.String" parameterType="java.util.Map">
+		<![CDATA[
+			select r.id
+	        from t_sysmgr_role r left join t_sysmgr_user_role u on r.id = u.roleid
+			where  u.userid = #{userid,jdbcType=VARCHAR}
+			and r.delflag <> 'D'
+			and r.appkey =#{appkey,jdbcType=VARCHAR}
+		]]>
+	</select>
+	
+	<select id="getRoleCodesByUserIdAndAppkey" resultType="java.lang.String" parameterType="java.util.Map">
+		<![CDATA[
+			select r.rolecode
+	        from t_sysmgr_role r left join t_sysmgr_user_role u on r.id = u.roleid
+			where  u.userid = #{userid,jdbcType=VARCHAR}
+			and r.delflag <> 'D'
+			and r.appkey =#{appkey,jdbcType=VARCHAR}
+		]]>
+	</select>
+</mapper>

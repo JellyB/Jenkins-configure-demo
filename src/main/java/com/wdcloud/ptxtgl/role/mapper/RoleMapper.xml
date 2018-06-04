@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wdcloud.ptxtgl.role.mapper.RoleMapper">
+
+	<select id="checkRoleExist" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		<![CDATA[
+			select count(id) from t_sysmgr_role  
+			where delflag <> 'D' 
+		]]>
+		<if test=" id != null and id != ''">
+			<![CDATA[
+			and id <>#{id,jdbcType=BIGINT}
+			]]>
+		</if>
+			and rolecode=#{rolecode,jdbcType=VARCHAR}
+		
+	</select>
+	
+	
+	<select id="loadRoleMesg" parameterType="java.lang.String" resultType="com.wdcloud.ptxtgl.role.entity.Role">
+		<![CDATA[
+			select id,rolename,rolecode,roletype,appkey,descn,creatercode,creatertime
+				from t_sysmgr_role
+				where delflag <> 'D'
+				and id=#{id,jdbcType=BIGINT}
+		]]>
+	</select>
+	<insert id="createRole" parameterType="com.wdcloud.ptxtgl.role.entity.Role">
+		<![CDATA[
+			insert into t_sysmgr_role(id,rolename,rolecode,roletype,appkey,descn,delflag,operatercode,operatetime,creatercode,creatertime,versions)
+				values(#{id,jdbcType=VARCHAR},#{rolename,jdbcType=VARCHAR},#{rolecode,jdbcType=CHAR},#{roletype,jdbcType=VARCHAR},
+					   #{appkey,jdbcType=BIGINT},#{descn,jdbcType=VARCHAR},
+					   #{delflag,jdbcType=VARCHAR},#{operatercode,jdbcType=VARCHAR},
+					   #{operatetime,jdbcType=TIMESTAMP},#{creatercode,jdbcType=VARCHAR},#{creatertime,jdbcType=TIMESTAMP},
+					   #{versions,jdbcType=VARCHAR})
+		]]>
+	</insert>
+
+
+	<update id="deleteRoleByLogic" parameterType="java.util.Map">
+		<![CDATA[
+			update t_sysmgr_role set 
+			delflag =#{delflag,jdbcType=VARCHAR},
+			operatercode =#{operatercode,jdbcType=VARCHAR},
+			operatetime =#{operatetime,jdbcType=TIMESTAMP},
+			versions =#{versions,jdbcType=BIGINT}
+			where id =#{id,jdbcType=VARCHAR}
+		]]>
+	</update>
+
+	<update id="updateRole" parameterType="java.util.Map">
+		<![CDATA[
+			update t_sysmgr_role set			
+			operatercode=#{operatercode,jdbcType=VARCHAR},
+			operatetime=#{operatetime,jdbcType=TIMESTAMP},
+			versions=#{versions,jdbcType=BIGINT},
+		]]>
+		<if test=" rolename != null and rolename != ''">
+			rolename=#{rolename,jdbcType=CHAR},
+		</if>
+		<if test=" rolecode != null and rolecode != ''">
+			rolecode=#{rolecode,jdbcType=VARCHAR},
+		</if>
+		<if test=" roletype != null and roletype != ''">
+			roletype=#{roletype,jdbcType=TIMESTAMP},
+		</if>
+		<if test=" appkey != null and appkey != ''">
+			appkey=#{appkey,jdbcType=VARCHAR},
+		</if>
+		<if test=" descn != null and descn != ''">
+			descn=#{descn,jdbcType=CHAR},
+		</if>
+		<![CDATA[
+			delflag=#{delflag,jdbcType=VARCHAR}			
+			where id =#{id,jdbcType=VARCHAR}
+		]]>
+	</update>
+
+	<select id="listRoleCountByConditions" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		<![CDATA[
+			select count(id) from t_sysmgr_role 
+			where delflag <> 'D'
+		]]>
+		<if test="rolename != null and rolename != ''">
+			and rolename like "%${rolename}%"
+		</if>
+		<if test="rolecode != null and rolecode != ''">
+			and rolecode like "%${rolecode}%"
+		</if>
+		<if test="appkey != null and appkey != ''">
+			and appkey like "%${appkey}%"
+		</if>
+	</select>
+
+	<select id="listRoleByConditions" parameterType="java.util.Map"
+		resultType="com.wdcloud.ptxtgl.role.entity.Role">
+		<![CDATA[
+			select id,rolename,rolecode,roletype,appkey,descn,creatercode,creatertime
+			from t_sysmgr_role
+			where delflag <> 'D'
+		]]>
+		<if test="rolename != null and rolename != ''">
+			and rolename like "%${rolename}%"
+		</if>
+		<if test="rolecode != null and rolecode != ''">
+			and rolecode like "%${rolecode}%"
+		</if>
+		<if test="appkey != null and appkey != ''">
+			and appkey like "%${appkey}%"
+		</if>
+		order by creatertime desc
+		limit #{pageStart}, #{pageSize}
+	</select>
+</mapper>

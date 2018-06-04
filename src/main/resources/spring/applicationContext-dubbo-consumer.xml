@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd 
+		http://code.alibabatech.com/schema/dubbo 
+		http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+		
+	<dubbo:consumer check="false" timeout="120000"></dubbo:consumer>
+    <dubbo:reference id="sysCodeIntegration" protocol="dubbo" group="zyzx" interface="com.wdcloud.zyzx.zyxx.integration.SysCodeIntegration">
+    	<dubbo:method name="getCodeMapByCodeClassVersion" timeout="5000" retries="0"/>
+    </dubbo:reference>
+	<!-- 声明需要暴露的服务接口 -->
+
+	<!--REST接口升级，回退到以前版本-->
+	<dubbo:reference id="sequenceServiceHandler" interface="com.wdcloud.sequence.service.SequenceServiceHandler"
+					 group="sequence" version="3.0" retries="0" timeout="60000" check="false"
+					 protocol="dubbo"/>
+
+	<bean id="sequenceService" class="com.wdcloud.sequence.service.SequenceService">
+		<property name="sequenceServiceHandler" ref="sequenceServiceHandler"></property>
+		<property name="authentication" ref="authentication"></property>
+	</bean>
+
+	<!--REST接口升级，回退到以前版本-->
+	<dubbo:reference id="keyServiceHandler" interface="com.wdcloud.key.service.KeyServiceHandler"
+					 group="sequence" version="3.0" retries="0" timeout="60000" check="false"
+					 protocol="dubbo"/>
+
+	<bean id="keyService" class="com.wdcloud.key.service.KeyService">
+		<property name="keyServiceHandler" ref="keyServiceHandler"></property>
+		<property name="authentication" ref="authentication"></property>
+	</bean>
+
+	<!--配置权限对象-->
+	<!--REST接口升级，回退到以前版本-->
+	<bean id="authentication" class="com.wdcloud.authentication.entity.Authentication">
+		<property name="namespace" value="${dubbo.consumer.namespace}"/>
+		<property name="tenant" value="${dubbo.consumer.tenant}"/>
+	</bean>
+</beans>

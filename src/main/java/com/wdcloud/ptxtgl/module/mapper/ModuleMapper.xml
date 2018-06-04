@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wdcloud.ptxtgl.module.mapper.ModuleMapper">
+
+	<!-- Module表所有列 -->
+	<sql id="Module_Column_List">
+		id, parentid, modulename, modulecode, modulelevel, menuid, appkey, displayorder,
+		descn, delflag, operatercode, operatetime, creatercode, creatertime, versions
+	</sql>
+
+	<!-- 展示列 -->
+	<sql id="Module_Display_List">
+		t.id, t.parentid, t.modulename, t.modulecode, t.modulelevel, t.menuid, r.resourcename, r.resourcecode, t.appkey, t.displayorder,
+		t.descn, t.delflag, t.operatercode, t.operatetime, t.creatercode, t.creatertime, t.versions
+	</sql>
+
+	<!-- 资源表所有列 -->
+	<sql id="Resource_Column_List">
+		id, resourcename, resourcecode, resourcetype, classname, methodname, resourceurl, appkey,
+		descn, delflag, operatercode, operatetime, creatercode, creatertime, versions
+	</sql>
+
+	<!-- 查询菜单条数 -->
+	<select id="selectModulesCount" parameterType="map" resultType="int">
+		select count(*) from t_sysmgr_module t LEFT JOIN t_sysmgr_resource r ON t.menuid = r.id WHERE t.delflag != 'D'
+		<if test="modulename != null and modulename !=''">
+			and t.modulename like '%${modulename}%'
+		</if>
+		<if test="modulecode != null and modulecode !=''">
+			and t.modulecode like '%${modulecode}%'
+		</if>
+		<if test="modulelevel != null and modulelevel !=''">
+			and t.modulelevel = #{modulelevel,jdbcType=VARCHAR}
+		</if>
+		<if test="appkey != null and appkey !=''">
+			and t.appkey = #{appkey,jdbcType=VARCHAR}
+		</if>
+	</select>
+
+	<!-- 查询菜单列表 -->
+	<select id="selectModules" resultType="com.wdcloud.ptxtgl.module.entity.Module" parameterType="map">
+		select
+		<include refid="Module_Display_List" />
+		from t_sysmgr_module t LEFT JOIN t_sysmgr_resource r ON t.menuid = r.id WHERE t.delflag != 'D'
+		<if test="modulename != null and modulename !=''">
+			and t.modulename like '%${modulename}%'
+		</if>
+		<if test="modulecode != null and modulecode !=''">
+			and t.modulecode like '%${modulecode}%'
+		</if>
+		<if test="modulelevel != null and modulelevel !=''">
+			and t.modulelevel = #{modulelevel,jdbcType=VARCHAR}
+		</if>
+		<if test="appkey != null and appkey !=''">
+			and t.appkey = #{appkey,jdbcType=VARCHAR}
+		</if>
+		order by t.creatertime desc
+		limit #{pageStart}, #{pageSize}
+	</select>
+
+	<!-- 查询根菜单数量 -->
+	<select id="selectRootModuleCount" resultType="int">
+		select count(*) from t_sysmgr_module where parentid is null and appkey = #{APPKEY,jdbcType=VARCHAR}
+		and delflag != 'D'
+	</select>
+
+	<!-- 插入Module -->
+	<insert id="insertModule" parameterType="com.wdcloud.ptxtgl.module.entity.Module">
+		insert into t_sysmgr_module(id, parentid, modulename, modulecode, modulelevel, menuid, appkey, displayorder,
+		descn, delflag, operatercode, operatetime, creatercode, creatertime, versions)
+		values(#{MODULE.id,jdbcType=VARCHAR},#{MODULE.parentid,jdbcType=VARCHAR},#{MODULE.modulename,jdbcType=VARCHAR},
+		#{MODULE.modulecode,jdbcType=VARCHAR},#{MODULE.modulelevel,jdbcType=VARCHAR},#{MODULE.menuid,jdbcType=VARCHAR},
+		#{MODULE.appkey,jdbcType=VARCHAR},#{MODULE.displayorder,jdbcType=VARCHAR},
+		#{MODULE.descn,jdbcType=VARCHAR},#{MODULE.delflag,jdbcType=VARCHAR},#{MODULE.operatercode,jdbcType=VARCHAR},#{MODULE.operatetime,jdbcType=TIMESTAMP},
+		#{MODULE.creatercode,jdbcType=VARCHAR},#{MODULE.creatertime,jdbcType=TIMESTAMP},#{MODULE.versions,jdbcType=VARCHAR})
+	</insert>
+
+	<!-- 查询ModuleCode数量 -->
+	<select id="getModuleCodeCount" resultType="int">
+		select count(*) from t_sysmgr_module where modulecode = #{MODULECODE,jdbcType=VARCHAR}
+		<if test="MODULEID != null">
+			and id != #{MODULEID,jdbcType=VARCHAR}
+		</if>
+	</select>
+
+	<!-- 根据id查询Module -->
+	<select id="selectModuleById" resultType="com.wdcloud.ptxtgl.module.entity.Module">
+		select
+		<include refid="Module_Column_List" />
+		from t_sysmgr_module where id = #{ID} and delflag != 'D'
+	</select>
+
+	<!-- 修改Module -->
+	<update id="updateModule" parameterType="com.wdcloud.ptxtgl.module.entity.Module">
+		update t_sysmgr_module t
+		set t.delflag = #{MODULE.delflag,jdbcType=VARCHAR},
+			<if test="MODULE.modulename != null and MODULE.modulename !=''">
+				t.modulename = #{MODULE.modulename,jdbcType=VARCHAR},
+			</if>
+			<if test="MODULE.modulecode != null and MODULE.modulecode !=''">
+				t.modulecode = #{MODULE.modulecode,jdbcType=VARCHAR},
+			</if>
+			<if test="MODULE.modulelevel != null and MODULE.modulelevel !=''">
+				t.modulelevel = #{MODULE.modulelevel,jdbcType=VARCHAR},
+			</if>
+			<if test="MODULE.appkey != null and MODULE.appkey !=''">
+				t.appkey = #{MODULE.appkey,jdbcType=VARCHAR},
+			</if>
+			<if test="MODULE.parentid != null and MODULE.parentid !=''">
+				t.parentid = #{MODULE.parentid,jdbcType=VARCHAR},
+			</if>
+			<if test="MODULE.descn != null and MODULE.descn !=''">
+				t.descn = #{MODULE.descn,jdbcType=VARCHAR},
+			</if>
+			<if test="MODULE.displayorder != null and MODULE.displayorder !=''">
+				t.displayorder = #{MODULE.displayorder,jdbcType=VARCHAR},
+			</if>
+			t.operatercode = #{MODULE.operatercode,jdbcType=VARCHAR},
+			t.operatetime = #{MODULE.operatetime,jdbcType=TIMESTAMP},
+			t.versions = #{MODULE.versions,jdbcType=BIGINT}
+		where id = #{MODULE.id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 通过id删除Module-->
+	<update id="deleteModuleById" parameterType="hashmap">
+		update t_sysmgr_module t
+		set t.delflag = #{delflag,jdbcType=VARCHAR},
+			t.operatercode = #{operatercode,jdbcType=VARCHAR},
+			t.operatetime = #{operatetime,jdbcType=TIMESTAMP},
+			t.versions = #{versions,jdbcType=BIGINT}
+		where id = #{moduleid,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 查询可关联资源条数 -->
+	<select id="selectAllowedResourcesCountForMenu" parameterType="map" resultType="int">
+		select count(*) from t_sysmgr_resource r where
+		<!-- not exists(select 1 from t_sysmgr_module m where m.menuid = r.id and m.delflag != 'D') and -->
+		r.resourcetype = '1' and r.delflag != 'D'
+		<if test="resourcename != null and resourcename != ''">
+			and r.resourcename like '%${resourcename}%'
+		</if>
+		<if test="resourcecode != null and resourcecode !='' ">
+			and r.resourcecode like '%${resourcecode}%'
+		</if>
+		<if test="appkey != null and appkey != '' ">
+			and r.appkey =#{appkey,jdbcType=VARCHAR}
+		</if>
+	</select>
+
+	<!-- 查询可关联源列表 -->
+	<select id="selectAllowedResourcesForMenu" resultType="com.wdcloud.ptxtgl.resource.entity.Resource" parameterType="map">
+		select <include refid="Resource_Column_List" /> from t_sysmgr_resource r where
+		<!-- not exists(select 1 from t_sysmgr_module m where m.menuid = r.id and m.delflag != 'D') and -->
+		r.resourcetype = '1' and r.delflag != 'D'
+		<if test="resourcename != null and resourcename != ''">
+			and r.resourcename like '%${resourcename}%'
+		</if>
+		<if test="resourcecode != null and resourcecode !='' ">
+			and r.resourcecode like '%${resourcecode}%'
+		</if>
+		<if test="appkey != null and appkey != '' ">
+			and r.appkey = #{appkey,jdbcType=VARCHAR}
+		</if>
+		order by r.creatertime desc
+		limit #{pageStart}, #{pageSize}
+	</select>
+
+	<!-- 保存菜单关联资源 -->
+	<update id="saveResourceForMenu" parameterType="hashmap">
+		update t_sysmgr_module t
+		set t.delflag = #{delflag,jdbcType=VARCHAR},
+			t.menuid = #{resourceid,jdbcType=VARCHAR},
+			t.operatercode = #{operatercode,jdbcType=VARCHAR},
+			t.operatetime = #{operatetime,jdbcType=TIMESTAMP},
+			t.versions = #{versions,jdbcType=BIGINT}
+		where id = #{moduleid,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 根据归属系统查询菜单列表 -->
+	<resultMap id="moduleMap" type="java.util.HashMap">
+		<result property="text" javaType="java.lang.String" column="modulename"/>
+		<result property="value" javaType="java.lang.String" column="id"/>
+	</resultMap>
+	<select id="selectModulesByAppkey" parameterType="String" resultMap="moduleMap">
+		select t.id, t.modulename from t_sysmgr_module t where t.appkey = #{APPKEY,jdbcType=VARCHAR} 
+		and t.delflag != 'D' order by t.creatertime
+	</select>
+
+
+	<select id="getMaxDisplayOrderByParentId" parameterType="java.lang.String" resultType="java.lang.Integer">
+			select IF(max(displayorder) IS NOT NULL, max(displayorder)+1,0) FROM  t_sysmgr_module where parentid = #{parentId,jdbcType=VARCHAR}
+	</select>
+</mapper>

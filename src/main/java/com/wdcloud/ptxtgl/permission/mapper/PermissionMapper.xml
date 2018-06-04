@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wdcloud.ptxtgl.permission.mapper.PermissionMapper">
+
+	<!-- 权限表所有列 -->
+	<sql id="Permission_Column_List">
+		id,permissionname,permissioncode,permissiontype,appkey,descn,delflag,operatercode,operatetime,creatercode,creatertime,versions
+	</sql>
+
+	<!-- 查询权限条数 -->
+	<select id="selectPermissionsCount" parameterType="map" resultType="int">
+		select count(*) from t_sysmgr_permission t where t.delflag != 'D'
+		<if test="permissionname != null and permissionname !=''">
+			and t.permissionname like '%${permissionname}%'
+		</if>
+		<if test="permissioncode != null and permissioncode !=''">
+			and t.permissioncode like '%${permissioncode}%'
+		</if>
+		<if test="permissiontype != null and permissiontype !=''">
+			and t.permissiontype = #{permissiontype,jdbcType=VARCHAR}
+		</if>
+		<if test="appkey != null and appkey !=''">
+			and t.appkey = #{appkey,jdbcType=VARCHAR}
+		</if>
+	</select>
+
+	<!-- 查询权限列表 -->
+	<select id="selectPermissions" resultType="com.wdcloud.ptxtgl.permission.entity.Permission" parameterType="map">
+		select
+		<include refid="Permission_Column_List" />
+		from t_sysmgr_permission t where t.delflag != 'D'
+		<if test="permissionname != null and permissionname !=''">
+			and t.permissionname like '%${permissionname}%'
+		</if>
+		<if test="permissioncode != null and permissioncode !=''">
+			and t.permissioncode like '%${permissioncode}%'
+		</if>
+		<if test="permissiontype != null and permissiontype !=''">
+			and t.permissiontype = #{permissiontype,jdbcType=VARCHAR}
+		</if>
+		<if test="appkey != null and appkey !=''">
+			and t.appkey = #{appkey,jdbcType=VARCHAR}
+		</if>
+		order by t.creatertime desc
+		limit #{pageStart}, #{pageSize}
+	</select>
+
+	<!-- 插入权限 -->
+	<insert id="insertPermission" parameterType="com.wdcloud.ptxtgl.permission.entity.Permission">
+		insert into t_sysmgr_permission(id,permissionname,permissioncode,permissiontype,appkey,
+			descn,delflag,operatercode,operatetime,creatercode,creatertime,versions)
+		values(#{PERMISSION.id,jdbcType=VARCHAR},#{PERMISSION.permissionname,jdbcType=VARCHAR},#{PERMISSION.permissioncode,jdbcType=VARCHAR},
+			#{PERMISSION.permissiontype,jdbcType=VARCHAR},#{PERMISSION.appkey,jdbcType=VARCHAR},
+			#{PERMISSION.descn,jdbcType=VARCHAR},#{PERMISSION.delflag,jdbcType=VARCHAR},#{PERMISSION.operatercode,jdbcType=VARCHAR},#{PERMISSION.operatetime,jdbcType=TIMESTAMP},
+			#{PERMISSION.creatercode,jdbcType=VARCHAR},#{PERMISSION.creatertime,jdbcType=TIMESTAMP},#{PERMISSION.versions,jdbcType=VARCHAR})
+	</insert>
+
+	<!-- 查询PermissionCode数量 -->
+	<select id="getPermissionCodeCount" resultType="int">
+		select count(*) from t_sysmgr_permission where permissioncode = #{PERMISSIONCODE,jdbcType=VARCHAR}
+		<if test="PERMISSIONID != null">
+			and id != #{PERMISSIONID,jdbcType=VARCHAR}
+		</if>
+	</select>
+
+	<!-- 根据id查询权限 -->
+	<select id="selectPermissionById" resultType="com.wdcloud.ptxtgl.permission.entity.Permission">
+		select
+		<include refid="Permission_Column_List" />
+		from t_sysmgr_permission where id = #{ID} and delflag != 'D'
+	</select>
+
+	<!-- 修改权限 -->
+	<update id="updatePermission" parameterType="com.wdcloud.ptxtgl.permission.entity.Permission">
+		update t_sysmgr_permission t
+		set t.delflag = #{PERMISSION.delflag,jdbcType=VARCHAR},
+			<if test="PERMISSION.permissionname != null and PERMISSION.permissionname !=''">
+				t.permissionname = #{PERMISSION.permissionname,jdbcType=VARCHAR},
+			</if>
+			<if test="PERMISSION.permissioncode != null and PERMISSION.permissioncode !=''">
+				t.permissioncode = #{PERMISSION.permissioncode,jdbcType=VARCHAR},
+			</if>
+			<if test="PERMISSION.appkey != null and PERMISSION.appkey !=''">
+				t.appkey = #{PERMISSION.appkey,jdbcType=VARCHAR},
+			</if>
+			<if test="PERMISSION.descn != null and PERMISSION.descn !=''">
+				t.descn = #{PERMISSION.descn,jdbcType=VARCHAR},
+			</if>
+			t.operatercode = #{PERMISSION.operatercode,jdbcType=VARCHAR},
+			t.operatetime = #{PERMISSION.operatetime,jdbcType=TIMESTAMP},
+			t.versions = #{PERMISSION.versions,jdbcType=BIGINT}
+		where id = #{PERMISSION.id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 通过id删除权限 -->
+	<update id="deletePermissionById" parameterType="hashmap">
+		update t_sysmgr_permission t
+		set t.delflag = #{delflag,jdbcType=VARCHAR},
+			t.operatercode = #{operatercode,jdbcType=VARCHAR},
+			t.operatetime = #{operatetime,jdbcType=TIMESTAMP},
+			t.versions = #{versions,jdbcType=BIGINT}
+		where id = #{permissionid,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

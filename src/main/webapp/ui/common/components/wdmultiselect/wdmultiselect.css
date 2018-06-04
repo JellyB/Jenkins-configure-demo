@@ -1,0 +1,168 @@
+.multiselect-box {
+	width: 180px;
+	position: relative;
+}
+.ad-common-tab .multiselect-box{
+	width: 200px;
+}
+.multiselect-box input[type="text"] {
+	width: 160px !important;
+	height: 30px;
+	line-height: 30px;
+	float: left;
+	padding: 0 4px !important;
+	box-sizing: border-box;
+}
+.ad-common-tab .multiselect-box input[type="text"] {
+	width: 180px !important;
+	height: 30px;
+	float: left;
+	padding: 0 4px !important;
+}
+.multiselect-box input[type="button"] {
+	width: 20px;
+	height: 30px;
+	line-height: 30px;
+	float: right;
+	border: 1px solid #ccc;
+	border-left: 0;
+	background:#fff url(images/dxxz.jpg) no-repeat center;
+}
+.sPopupDiv {
+	position: absolute;
+	left: -100px;
+	top: -100px;
+	visibility: hidden;
+	z-index: 1001;
+	padding: 5px;
+	width: 410px;
+}
+.sPopupDiv .sPopupTitle {
+	width: 166px;
+}
+.sPopupDiv .sPopupBlock {
+	background: #fff;
+	border: 1px solid #ccc;
+	position: absolute;
+	top: 34px;
+	max-height:368px ;
+	overflow: auto;
+	overflow-x: hidden;
+}
+.sPopupTitle {
+	background: #F2F2F2;
+	margin-bottom: -2px !important;
+	border: 1px solid #ccc;
+	height: 30px;
+	position: absolute;
+	z-index: 1000;
+	border-bottom: 0;
+}
+.mOutItem {
+	min-width: 100px;
+	display: inline-block;
+}
+.mOutItem label {
+	font-weight: 100;
+	line-height: 20px;
+	margin-bottom: 0;
+	font-size: 12px;
+}
+.mOutItem label input[type='checkbox'] {
+	display: inline-block;
+	float: left;
+	margin-top: 4px;
+	margin-right: 3px;
+}
+.multiSelectItem {
+	background-color: #00CCCC;
+	color: #fff;
+	display: inline-block;
+	line-height: 16px;
+	margin-bottom: 3px;
+	margin-right: 3px;
+	padding: 3px;
+	font-size: 12px;
+}
+.multiSelectItem:hover{
+	color: #fff;
+	background: #00baba;
+}
+.multiSelectItem a,
+.multiSelectItem a:hover,
+.multiSelectItem a:active {
+	color: #fff;
+	font-size: 16px;
+	height: 18px;
+	background: url(images/closeseled.gif) no-repeat center;
+	margin-left: 3px;
+	padding: 0 6px 2px;
+	text-decoration: none;
+	width: 11px;
+}
+.seledbuttonSel {
+	color: #999;
+	height: auto !important;
+	min-height: 33px;
+	line-height: 28px;
+	padding: 3px 3px 0;
+	background: #F2F2F2;
+}
+.sPopupTitle a,
+.sPopupTitle a:hover,
+.sPopupTitle a:focus {
+	display: block;
+	float: left;
+	width: 50px;
+	height: 24px;
+	line-height: 24px;
+	margin-top: 3px;
+	margin-left: 3px;
+	text-align: center;
+	font-size: 12px;
+	text-decoration: none;
+}
+.multi-btn-qd {
+	background: #ffcc99;
+	color: #996600;
+}
+.multi-btn-qd:hover,
+.multi-btn-qd:focus{
+	color: #996600;
+	background: #ffcc66;
+}
+.multi-btn-qk{
+	background: #ffcc99;
+	color: #996600;
+}
+.multi-btn-qk:hover,
+.multi-btn-qk:focus{
+	color: #996600;
+	background: #ffcc66;
+}
+.multi-btn-qx{
+	background: #cccccc;
+	color: #999999;
+}
+.multi-btn-qx:hover,
+.multi-btn-qx:focus{
+	color: #fff;
+	background: #999;
+}
+.pItemB {
+	padding: 3px 10px;
+}
+.divMask {
+	background: #000;
+	opacity: 0.3;
+	filter:alpha(opacity=30);   
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	visibility: visible;
+	min-height: 100%;
+	width: 100%;
+	position: fixed;
+	z-index: 1000;
+}

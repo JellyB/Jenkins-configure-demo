@@ -1,0 +1,32 @@
+@import url("uploadify.css");
+.uploadifyQueue{
+	overflow: hidden;
+}
+.wdUploadify-dis {
+	width: 80px;
+	height: 80px;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	float: left;
+	position: relative;
+	border: 1px solid #ccc;
+}
+.wdUploadify-dis img {
+	max-width: 100%;
+	max-height: 100%;
+}
+.wdUploadify-disArea {
+	overflow: hidden;
+}
+.wdUploadify-cancel {
+	position: absolute;
+	line-height: normal !important;
+	cursor: pointer;
+	width: 100%;
+	bottom: 0;
+	display: none;
+}
+.wdUploadify-cancelBtn{
+	float: right;
+	margin-right: 4px;
+}

@@ -1,0 +1,13 @@
+#multivaildateTip {
+	display: none;
+	position: absolute;
+	padding: 2px 4px;
+	border: 1px solid #666;
+	background-color: #ffc;
+	text-align: left;
+	color: #222;
+	font-size: 12px;
+}
+.validateborder{
+	border: 1px solid red;
+}

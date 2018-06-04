@@ -1,0 +1,33 @@
+<div class="hp-search-box">
+	<div class="hp-search-title">
+		<span>{{string_zycx}}</span>
+		<a href="javascript:void(0)"></a>
+	</div>
+	<div class="hp-search-tab-box">
+		<form id="searchForm">
+		<table>
+			<tr>
+				<th>{{string_zymc}}</th>
+				<td><input type="text" id="resourcename" name="resourcename"/></td>
+				<th>{{string_zydm}}</th>
+				<td><input type="text" id="resourcecode" name="resourcecode"/></td>
+				<th>{{string_zylb}}</th>
+				<td><input type="text" class="WDInput" name="code_RESOURCETYPE" id="code_resourcetype" /></td>
+				<td>
+					<input type="button" value="{{string_cx}}" id="zysearch" class="hp-btn-search btn" />
+				</td>
+			</tr>
+			<tr>
+				<th>{{string_gsxt}}</th>
+				<td colspan="6"><input type="text" class="WDInput" name="code_YYXT" id="code_appkey" /></td>
+			</tr>
+		</table>
+		</form>
+	</div>
+</div>
+<div class="hp-btn-box">
+	<input type="button" value="{{string_cjzy}}" class="btn btn-zyadd"/>
+	<input type="button" value="{{string_sczy}}" class="btn btn-zydelete" />
+</div>
+	<table id="wd-table"></table>
+	<div id="wd-pager"></div>

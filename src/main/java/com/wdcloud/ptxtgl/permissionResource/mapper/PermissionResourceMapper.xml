@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wdcloud.ptxtgl.permissionResource.mapper.PermissionResourceMapper">
+
+	<!-- 给某权限分配资源 -->
+	<insert id="insertResourcesForPermission" parameterType="hashmap">
+		insert into t_sysmgr_permission_resource(permissionid,resourceid)values
+		<foreach collection="resids" item="resid" separator=",">
+			(#{permissionid,jdbcType=VARCHAR},#{resid,jdbcType=VARCHAR})
+		</foreach>
+	</insert>
+
+	<!-- 删除某权限下的资源 -->
+	<delete id="deleteResourcesFromPermission">
+		delete from t_sysmgr_permission_resource where permissionid = #{permissionid,jdbcType=VARCHAR} and resourceid in
+		<foreach collection="resids" item="resid" separator="," open="(" close=")">
+			#{resid,jdbcType=VARCHAR}
+		</foreach>
+	</delete>
+
+	<!-- 查询已分配资源条数 -->
+	<select id="selectGrantedResourcesCount" parameterType="map" resultType="int">
+		select count(*) from t_sysmgr_permission_resource pr left join t_sysmgr_resource r on pr.resourceid = r.id
+		where pr.permissionid = #{permissionid,jdbcType=VARCHAR} and r.delflag != 'D'
+		<if test="resourcename != null and resourcename != ''">
+			and resourcename like '%${resourcename}%'
+		</if>
+		<if test="resourcecode != null and resourcecode !='' ">
+			and resourcecode like '%${resourcecode}%'
+		</if>
+		<if test="appkey != null and appkey != '' ">
+			and appkey = #{appkey,jdbcType=VARCHAR}
+		</if>
+	</select>
+
+	<!-- 查询已分配资源列表 -->
+	<select id="selectGrantedResources" resultType="com.wdcloud.ptxtgl.permissionResource.entity.PermissionResource" parameterType="map">
+		select pr.permissionid, r.id as id, r.resourcename, r.resourcecode, r.appkey
+		from t_sysmgr_permission_resource pr left join t_sysmgr_resource r on pr.resourceid = r.id
+		where pr.permissionid = #{permissionid,jdbcType=VARCHAR} and r.delflag != 'D'
+		<if test="resourcename != null and resourcename != ''">
+			and resourcename like '%${resourcename}%'
+		</if>
+		<if test="resourcecode != null and resourcecode !='' ">
+			and resourcecode like '%${resourcecode}%'
+		</if>
+		<if test="appkey != null and appkey != '' ">
+			and appkey = #{appkey,jdbcType=VARCHAR}
+		</if>
+		order by r.creatertime desc
+		limit #{pageStart}, #{pageSize}
+	</select>
+
+	<!-- 查询未分配资源条数 -->
+	<select id="selectRemainedResourcesCount" parameterType="map" resultType="int">
+		select count(*) from t_sysmgr_resource r where r.id not in
+		(select resourceid from t_sysmgr_permission_resource pr where pr.permissionid=#{permissionid,jdbcType=VARCHAR}) and  r.delflag != 'D'
+		<if test="resourcename != null and resourcename != ''">
+			and resourcename like '%${resourcename}%'
+		</if>
+		<if test="resourcecode != null and resourcecode !='' ">
+			and resourcecode like '%${resourcecode}%'
+		</if>
+		<if test="appkey != null and appkey != '' ">
+			and appkey = #{appkey,jdbcType=VARCHAR}
+		</if>
+	</select>
+
+	<!-- 查询未分配资源列表 -->
+	<select id="selectRemainedResources" resultType="com.wdcloud.ptxtgl.permissionResource.entity.PermissionResource" parameterType="map">
+		select r.id as id, r.resourcename, r.resourcecode, r.appkey from t_sysmgr_resource r where r.id not in
+		(select resourceid from t_sysmgr_permission_resource pr where pr.permissionid=#{permissionid,jdbcType=VARCHAR}) and  r.delflag != 'D'
+		<if test="resourcename != null and resourcename != ''">
+			and resourcename like '%${resourcename}%'
+		</if>
+		<if test="resourcecode != null and resourcecode !='' ">
+			and resourcecode like '%${resourcecode}%'
+		</if>
+		<if test="appkey != null and appkey != '' ">
+			and appkey = #{appkey,jdbcType=VARCHAR}
+		</if>
+		order by r.creatertime desc
+		limit #{pageStart}, #{pageSize}
+	</select>
+	
+	<select id = "getResourceIdsByPermissionIdsAndAppkey" parameterType="java.util.Map" resultType="java.lang.String">
+		<![CDATA[
+			select  r.id 
+			from t_sysmgr_permission_resource pr left join t_sysmgr_resource r on pr.resourceid = r.id
+			where r.delflag <> 'D'
+		]]>
+			and r.appkey =#{appkey,jdbcType=VARCHAR}
+		<if test="resourcetype != null and resourcetype != '' ">
+			and r.resourcetype =#{resourcetype,jdbcType=VARCHAR}
+		</if>			
+			and pr.permissionid in		
+		<foreach collection="permissionSet" item="item" index="index" open="(" close =")" separator=",">
+			#{item,jdbcType=VARCHAR}
+		</foreach>
+	</select>
+	
+</mapper>

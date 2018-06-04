@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wdcloud.ptxtgl.base.mapper.MenuMapper" >
+
+	<select id="getRootMenu" resultType="com.wdcloud.ptxtgl.base.entity.Menu"
+		parameterType="java.lang.String">
+		<![CDATA[
+			select m.id as id, m.parentid as parentid, m.modulename as modulename,
+			m.modulecode as modulecode, m.menuid as menuid, r.resourceurl as resourceurl
+			from t_sysmgr_module m left join t_sysmgr_resource r
+			on m.menuid = r.id 
+			where m.delflag <> 'D'
+			and m.parentid is null
+			and m.appkey = #{appkey,jdbcType=VARCHAR}
+		]]>
+	</select>
+	
+	<select id="getChildrenMenus" resultType="com.wdcloud.ptxtgl.base.entity.Menu"
+		parameterType="java.util.Map">
+		<![CDATA[
+			select m.id as id, m.parentid as parentid, m.modulename as modulename,
+			m.modulecode as modulecode, m.menuid as menuid, r.resourceurl as resourceurl
+			from t_sysmgr_module m left join t_sysmgr_resource r
+			on m.menuid = r.id
+			where m.delflag <> 'D'
+			and m.parentid =#{parentId,jdbcType=VARCHAR}
+			and m.appkey = #{appkey,jdbcType=VARCHAR}
+			order by displayorder asc
+		]]>
+	</select>
+	
+	<select id="getMenuCodesByReourceIdsAndAppkey" parameterType="java.util.Map" resultType="java.lang.String">
+		<![CDATA[
+			select modulecode from t_sysmgr_module
+			where delflag <> 'D'
+			and appkey=#{appkey,jdbcType=VARCHAR}
+			and menuid in
+		]]>
+		<foreach collection="resourceSet" item="item" index="index" open="(" close=")" separator=",">
+			#{item,jdbcType=VARCHAR}
+		</foreach>
+	</select>
+
+
+	<select id="getMenuCodesByUserIdandAppkey" parameterType="java.util.Map" resultType="java.lang.String">
+		<![CDATA[
+			SELECT 		DISTINCT	mo.modulecode   FROM	t_sysmgr_module mo 				 
+			WHERE
+			mo.delflag <> 'D' and 
+			mo.appkey =#{appkey,jdbcType=VARCHAR} and 
+			mo.menuid                       IN (
+		    SELECT DISTINCT	pr.resourceid	FROM 	t_sysmgr_permission_resource pr	 left join t_sysmgr_resource re on pr.resourceid =  re.id   
+		    WHERE
+		    re.delflag <> 'D' and
+		    re.appkey =#{appkey,jdbcType=VARCHAR} and
+		    pr.permissionid IN (
+			SELECT DISTINCT	rp.permissionid	FROM	t_sysmgr_role_permission rp		 left join t_sysmgr_role ro  	on rp.roleid  = ro.id
+			WHERE
+			ro.delflag <> 'D' and
+			ro.appkey =#{appkey,jdbcType=VARCHAR} and
+			rp.roleid       IN (
+			SELECT DISTINCT	ur.ROLEID		FROM	t_sysmgr_user_role ur 			 LEFT JOIN t_sysmgr_role r  	ON r.id = ur.ROLEID						 
+			WHERE	
+			ur.USERID = #{userid,jdbcType=VARCHAR}
+			AND r.appkey =#{appkey,jdbcType=VARCHAR}
+			AND r.delflag <> 'D'	)))
+		]]>
+	</select>
+</mapper>

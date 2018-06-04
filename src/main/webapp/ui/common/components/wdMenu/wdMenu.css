@@ -1,0 +1,71 @@
+ul{padding: 0; margin: 0;}
+ul,ul li,ol{list-style: none;}
+img{vertical-align: middle;}
+*,*:before,*:after{
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box
+}
+.wd-menu-auto{
+	border: 1px solid #CCC;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+.wd-menu-list{
+	border: 1px solid #CCC;
+	overflow-y: auto;
+	overflow-x: hidden;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+}
+.wd-menu-list-li{
+	width: 100%;
+	cursor: default;
+}
+.wd-menu-list-handle{
+	margin-top: -1px;
+}
+.wd-menu-item{
+	overflow: hidden;
+}
+.wd-menu-item-li{
+	float: left;
+	width: 100%;
+	cursor: default;
+}
+.wd-menu-item-li-active{
+	color: #FF6600;
+}
+.wd-menu-list-lable{
+	display: inline-block;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	vertical-align: middle;
+}
+.wd-menu-item-label{
+	display: inline-block;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	vertical-align: middle;
+}
+.wd_menu-opera-icon{
+	float: right;
+	background: url(img/dropdown.png) no-repeat center center;
+	margin-left: 5px;
+}
+.wd_menu-icon-down{
+	background: url(img/dropdown.png) no-repeat center center;
+}
+.wd_menu-icon-up{
+	background: url(img/dropup.png) no-repeat center center;
+}
+.wd-menu-list-icon{
+	float: left;
+	display: inline-block;
+	margin-right: 10px;
+}

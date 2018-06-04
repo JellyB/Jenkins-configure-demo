@@ -1,0 +1,94 @@
+.search-helper {
+	position: absolute;
+	border: 1px solid #ccc;
+	top: 35px;
+	left: 0;
+	width: 100%;
+	border-top: 0;
+	overflow: hidden;
+	background: #fff;
+	display: none;
+	z-index: 9999;
+}
+
+.search-helper ul {
+	padding: 0;
+	margin: 0;
+}
+
+.search-helper ul li {
+	padding: 0 5px;
+	height: 25px;
+	line-height: 25px;
+}
+
+.search-helper ul li a {}
+
+.search-helper ul li.selected {
+	background: #FFDFC6;
+}
+
+.search-helper ul li.selected a {
+	color: #0058A2 !important;
+}
+
+.search-helper ul li a {
+	float: left;
+	width: 190px;
+	display: block;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	color: #0058A2 !important;
+}
+
+.search-helper ul li span {
+	display: block;
+	float: right;
+	color: #999;
+}
+
+.search-close {
+	cursor: pointer;
+	width: 100%;
+	height: 30px;
+	border-top: 1px solid #f2f2f2;
+	padding: 0 5px;
+	line-height: 30px;
+}
+
+.search-close span {
+	float: right;
+	color: #999;
+}
+
+.wdSearch-box {
+	width: 380px;
+	min-height: 34px;
+	line-height: 28px;
+	border: 3px solid #20A6C9;
+	overflow: auto;
+	z-index: 9999;
+	background: #fff;
+	padding: 0 10px;
+	float: left;
+	
+}
+
+.wd-search-box {
+	float: left;
+	background: #F5F5F5;
+	border: 1px solid #ccc;
+	padding: 0 5px;
+	height: 22px;
+	line-height: 22px;
+	margin-right: 5px;
+	margin-top: 3px;
+}
+
+.wd-search-box span {
+	display: block;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
